@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="manifest" id="pwaManifest"/>
+<meta name="theme-color" content="#07111F"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="apple-mobile-web-app-title" content="VatsX"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDIiIGZpbGw9IiMwMDAwMDAiLz4KPHRleHQgeD0iOTYiIHk9IjEwNCIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNzQiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSItNCI+VkFUUzwvdGV4dD4KPGxpbmUgeDE9IjM4IiB5MT0iMTE2IiB4Mj0iMTU0IiB5Mj0iMTE2IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjI1Ii8+Cjx0ZXh0IHg9Ijk2IiB5PSIxNTgiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iMTAwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMjIiPlg8L3RleHQ+Cjwvc3ZnPg=="/>
+<title>VatsX — India's First All-Vehicle Booking Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;700;900&family=Mukta:wght@300;400;600;700;800&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --accent:#4F9CF9;
+  --accent-light:#7AB8FF;
+  --accent-dark:#2B7DE0;
+  --saffron:#4F9CF9;
+  --saffron-light:#7AB8FF;
+  --saffron-dark:#2B7DE0;
+  --charcoal:#FFFFFF;
+  --charcoal2:#B0BFD8;
+  --cream:#0F2040;
+  --cream2:#162A50;
+  --cream3:#1E3560;
+  --white:#0A1628;
+  --muted:#6B8BAE;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Mukta',sans-serif;background:#07111F;color:#FFFFFF;overflow-x:hidden;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:999;background:rgba(7,17,31,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(79,156,249,0.15);padding:0 2.5rem;height:70px;display:flex;align-items:center;justify-content:space-between;}
+.logo-wrap img{height:44px;width:auto;object-fit:contain;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{text-decoration:none;color:#FFFFFF;font-size:.92rem;font-weight:600;transition:color .2s;}
+.nav-links a:hover{color:var(--saffron);}
+.nav-right{display:flex;align-items:center;gap:.8rem;}
+.lang-toggle{display:flex;background:#16213E;border-radius:6px;padding:2px;border:1px solid #2A2A4A;}
+.lang-btn{background:transparent;border:none;padding:.3rem .7rem;border-radius:4px;font-family:'Mukta',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;color:#A0A8C0;transition:all .2s;}
+.lang-btn.active{background:#4F9CF9;color:#fff;border-radius:6px;}
+.btn-login{background:transparent;border:1.5px solid #4F9CF9;color:#4F9CF9;padding:.5rem 1.2rem;border-radius:8px;font-family:'Mukta',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-login:hover{border-color:var(--saffron);color:var(--saffron);}
+.btn-saarthi{background:var(--saffron);color:#fff;padding:.5rem 1.2rem;border-radius:8px;border:none;font-family:'Mukta',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-saarthi:hover{background:var(--saffron-light);}
+.nav-hamburger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--charcoal);}
+.mobile-menu{display:none;position:fixed;top:70px;left:0;right:0;background:#16213E;border-bottom:1px solid #2A2A4A;padding:1rem 1.5rem;z-index:998;flex-direction:column;gap:.8rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{text-decoration:none;color:#FFFFFF;font-size:1rem;font-weight:600;padding:.5rem 0;border-bottom:1px solid #2A2A4A;}
+.mobile-menu-btns{display:flex;gap:.8rem;margin-top:.5rem;}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;}
+.hero-slides{position:absolute;inset:0;z-index:0;}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.5s ease;background-size:cover;background-position:center;background-repeat:no-repeat;}
+.hero-slide.active{opacity:1;}
+
+
+
+
+.hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.58);z-index:1;}
+.hero-pattern{position:absolute;inset:0;z-index:1;background-image:radial-gradient(circle at 25% 50%,rgba(79,156,249,0.12) 0%,transparent 50%);pointer-events:none;}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:5rem 2.5rem 4rem;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;width:100%;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(79,156,249,0.12);border:1px solid rgba(212,175,55,0.4);color:#4F9CF9;padding:.4rem 1rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.08em;margin-bottom:1.4rem;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#4F9CF9;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hero h1{font-family:'Baloo 2',cursive;font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;color:#fff;line-height:1.12;margin-bottom:.8rem;}
+.hero h1 .hl{color:var(--saffron);}
+.hero-hindi{font-size:1rem;color:rgba(255,255,255,0.6);margin-bottom:1.4rem;}
+.hero-desc{color:rgba(255,255,255,0.78);font-size:1rem;line-height:1.7;margin-bottom:2rem;max-width:480px;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-primary{background:var(--saffron);color:#fff;padding:.85rem 2rem;border-radius:8px;border:none;font-family:'Mukta',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{background:var(--saffron-light);transform:translateY(-2px);}
+.btn-secondary{background:transparent;color:#fff;padding:.85rem 2rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.3);font-family:'Mukta',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-secondary:hover{border-color:var(--saffron);color:var(--saffron);}
+.hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap;}
+.hstat-num{font-family:'Baloo 2',cursive;font-size:1.9rem;font-weight:800;color:#4F9CF9;}
+.hstat-label{color:rgba(255,255,255,0.55);font-size:.78rem;margin-top:.1rem;}
+.hero-phone-wrap{display:flex;justify-content:center;align-items:center;position:relative;}
+.hero-phone{width:255px;background:#0d0d0d;border-radius:36px;padding:18px 14px 24px;border:2px solid rgba(232,101,10,0.25);box-shadow:0 32px 80px rgba(0,0,0,0.5);}
+.phone-notch{width:70px;height:7px;background:#1a1a1a;border-radius:4px;margin:0 auto 14px;}
+.phone-screen{background:#141414;border-radius:20px;padding:14px;min-height:390px;}
+.phone-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.phone-logo-text{font-family:'Baloo 2',cursive;font-size:.95rem;font-weight:800;color:var(--saffron);}
+.phone-loc{font-size:.65rem;color:#777;}
+.phone-search{background:#1e1e1e;border-radius:10px;padding:9px 12px;font-size:.72rem;color:#666;margin-bottom:12px;}
+.phone-vehicles{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+.pv{background:#1e1e1e;border-radius:10px;padding:8px 4px;text-align:center;}
+.pv.act{background:rgba(232,101,10,0.18);border:1px solid rgba(232,101,10,0.35);}
+.pv-icon{font-size:1.3rem;}
+.pv-label{font-size:.58rem;color:#777;margin-top:2px;}
+.pv.act .pv-label{color:var(--saffron);}
+.phone-nearby{font-size:.65rem;color:#666;margin-bottom:7px;}
+.phone-driver{background:#1e1e1e;border-radius:10px;padding:9px;display:flex;align-items:center;gap:7px;margin-bottom:7px;}
+.pd-av{width:30px;height:30px;border-radius:50%;background:var(--saffron);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;font-weight:700;flex-shrink:0;}
+.pd-name{font-size:.7rem;color:#ddd;font-weight:600;}
+.pd-veh{font-size:.6rem;color:#777;}
+.pd-rat{font-size:.65rem;color:#FFB800;margin-left:auto;}
+.phone-book{background:#4F9CF9;color:#fff;border:none;border-radius:10px;padding:9px;width:100%;font-size:.75rem;font-weight:700;cursor:pointer;}
+.hero-float{position:absolute;background:rgba(248,244,238,0.12);backdrop-filter:blur(8px);border:1px solid rgba(248,244,238,0.2);border-radius:10px;padding:.5rem .9rem;font-size:.72rem;color:#fff;display:flex;align-items:center;gap:.4rem;}
+.hf1{top:8%;right:-15px;}
+.hf2{bottom:12%;left:-20px;}
+.slide-dots{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:3;}
+.sdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;transition:all .3s;}
+.sdot.active{background:var(--saffron);width:24px;border-radius:4px;}
+
+/* SECTION COMMONS */
+section{padding:4rem 2.5rem;}
+.sec-inner{max-width:1200px;margin:0 auto;}
+.sec-tag{display:inline-block;background:rgba(79,156,249,0.12);color:var(--saffron);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .9rem;border-radius:6px;margin-bottom:.7rem;}
+.sec-title{font-family:'Baloo 2',cursive;font-size:clamp(1.7rem,3.5vw,2.6rem);font-weight:800;color:var(--charcoal);line-height:1.2;margin-bottom:.7rem;}
+.sec-sub{color:#A0A8C0;font-size:.95rem;line-height:1.7;}
+.sec-header{text-align:center;max-width:620px;margin:0 auto 3rem;}
+
+/* VEHICLES */
+.vehicles{background:#0A1830;}
+.vehicles-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.8rem;}
+.vc{background:var(--cream);border:1.5px solid var(--cream2);border-radius:14px;padding:1rem .6rem;text-align:center;cursor:pointer;transition:all .25s;}
+.vc:hover,.vc.active{border-color:var(--saffron);background:rgba(79,156,249,0.08);transform:translateY(-3px);}
+.vc-icon{font-size:2rem;margin-bottom:.4rem;}
+.vc-name{font-weight:700;font-size:.82rem;color:var(--charcoal);margin-bottom:.15rem;}
+.vc-name-hi{font-size:.7rem;color:#A0A8C0;}
+.vc-tag{display:inline-block;margin-top:.4rem;font-size:.62rem;font-weight:700;padding:.18rem .55rem;border-radius:20px;}
+.tag-farm{background:rgba(34,139,34,0.1);color:#1a7a1a;}
+.tag-biz{background:rgba(79,156,249,0.12);color:var(--saffron-dark);}
+.tag-city{background:rgba(0,100,200,0.1);color:#0055aa;}
+
+/* BOOKING SECTION */
+.booking-section{margin-top:2rem;display:none;}
+.booking-section.show{display:block;}
+.booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;overflow:visible;}
+.booking-form-side{background:var(--cream);border-radius:16px;padding:1.5rem;border:1px solid var(--cream2);position:relative;overflow:visible;}
+
+/* Location popup style */
+.loc-field{position:relative;margin-bottom:.8rem;}
+.loc-input-btn{width:100%;background:var(--white);border:1.5px solid var(--cream3);border-radius:10px;padding:.75rem 1rem;font-family:'Mukta',sans-serif;font-size:.9rem;color:var(--charcoal);cursor:pointer;text-align:left;display:flex;align-items:center;gap:.5rem;transition:border-color .2s;}
+.loc-input-btn:hover,.loc-input-btn.filled{border-color:var(--saffron);}
+.loc-input-btn .loc-placeholder{color:#aaa;font-size:.88rem;}
+.loc-input-btn .loc-value{color:var(--charcoal);font-size:.85rem;font-weight:600;}
+.loc-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0F2040;border:1.5px solid #4F9CF9;border-radius:12px;padding:1rem;z-index:99999;box-shadow:0 16px 48px rgba(0,0,0,0.8);max-height:70vh;overflow-y:auto;}
+.loc-field:focus-within,.loc-field.active{z-index:10000;}
+.loc-dropdown.open{display:block;}
+.loc-field{position:relative;margin-bottom:.8rem;}
+.pop-chip{background:rgba(79,156,249,0.1);border:1px solid rgba(79,156,249,0.3);border-radius:20px;padding:.28rem .65rem;font-size:.72rem;font-weight:600;color:#4F9CF9;cursor:pointer;transition:all .2s;font-family:'Mukta',sans-serif;white-space:nowrap;}
+.pop-chip:hover{background:rgba(79,156,249,0.25);border-color:#4F9CF9;}
+.pop-chip.selected{background:#4F9CF9;color:#fff;}
+.gps-btn{width:100%;background:rgba(79,156,249,0.1);border:1.5px dashed rgba(79,156,249,0.5);border-radius:8px;padding:.6rem;color:#4F9CF9;font-family:'Mukta',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;margin-bottom:.7rem;transition:all .2s;}
+.gps-btn:hover{background:rgba(79,156,249,0.2);}
+.divider{display:flex;align-items:center;gap:.6rem;margin:.5rem 0;}
+.div-line{flex:1;height:1px;background:var(--cream2);}
+.div-text{font-size:.7rem;color:#A0A8C0;}
+.loc-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem;}
+.sel{width:100%;border:1.5px solid var(--cream2);border-radius:8px;padding:.55rem .7rem;font-family:'Mukta',sans-serif;font-size:.82rem;color:var(--charcoal);background:#0A1628;color:#fff;outline:none;transition:border-color .2s;}
+.sel:focus{border-color:var(--saffron);}
+.sel:disabled{opacity:.35;cursor:not-allowed;pointer-events:none;}
+.inp-full{width:100%;border:1.5px solid #3A3A60;border-radius:8px;padding:.55rem .7rem;font-family:'Mukta',sans-serif;font-size:.82rem;color:#fff;background:#0A1628;outline:none;margin-bottom:.5rem;}
+.inp-full:focus{border-color:var(--saffron);}
+
+/* Extra options */
+.extra-opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem;}
+.schedule-row{display:grid;grid-template-columns:1fr;gap:.6rem;margin-bottom:.8rem;}
+
+/* Distance + Fare */
+.dist-fare-box{background:var(--white);border:1.5px solid var(--cream2);border-radius:12px;padding:1rem;margin-bottom:1rem;display:none;}
+.dist-fare-box.show{display:block;}
+.dist-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+.dist-label{font-size:.78rem;color:#A0A8C0;font-weight:600;}
+.dist-val{font-size:.9rem;font-weight:700;color:var(--charcoal);}
+.fare-divider{height:1px;background:var(--cream2);margin:.6rem 0;}
+.fare-label{font-size:.78rem;color:#A0A8C0;font-weight:600;margin-bottom:.3rem;}
+.fare-amount{font-family:'Baloo 2',cursive;font-size:1.8rem;font-weight:800;color:var(--saffron);}
+.fare-breakdown{font-size:.72rem;color:#A0A8C0;margin-top:.2rem;}
+.book-now-btn{width:100%;background:var(--saffron);color:#fff;border:none;border-radius:10px;padding:.9rem;font-family:'Mukta',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:background .2s;margin-top:.5rem;}
+.book-now-btn:hover{background:var(--saffron-light);}
+
+/* MAP */
+.booking-map-side{border-radius:16px;overflow:hidden;border:1.5px solid var(--cream2);position:sticky;top:90px;}
+#bookingMap{height:420px;width:100%;background:#e8e0d5;}
+.map-info{background:var(--white);padding:.8rem 1rem;border-top:1px solid var(--cream2);font-size:.78rem;color:#A0A8C0;display:flex;align-items:center;gap:.5rem;}
+
+/* HOW IT WORKS */
+.how{background:var(--charcoal);}
+.how .sec-title{color:#fff;}
+.how .sec-sub{color:#aaa;}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem;}
+.step{background:#1e1e1e;border-radius:16px;padding:1.8rem;border:1px solid #2a2a2a;position:relative;overflow:hidden;}
+.step-num{font-family:'Baloo 2',cursive;font-size:4rem;font-weight:800;color:rgba(232,101,10,0.1);line-height:1;position:absolute;top:.5rem;right:1rem;}
+.step-icon{font-size:1.6rem;margin-bottom:.6rem;}
+.step-title{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.2rem;}
+.step-hindi{font-size:.78rem;color:var(--saffron);margin-bottom:.4rem;}
+.step-desc{color:#888;font-size:.84rem;line-height:1.6;}
+
+/* WHY VATSX */
+.why-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.why-features{display:flex;flex-direction:column;gap:.9rem;margin-top:1.2rem;}
+.wf{display:flex;gap:.9rem;align-items:flex-start;background:var(--white);border-radius:12px;padding:1rem;border:1px solid var(--cream2);transition:border-color .2s;}
+.wf:hover{border-color:var(--saffron);}
+.wf-icon{width:40px;height:40px;border-radius:10px;background:rgba(232,101,10,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.wf-title{font-weight:700;font-size:.9rem;margin-bottom:.15rem;}
+.wf-desc{font-size:.8rem;color:#A0A8C0;line-height:1.5;}
+.why-map-box{background:var(--charcoal);border-radius:20px;padding:1.6rem;position:relative;overflow:hidden;}
+.bihar-title{font-family:'Baloo 2',cursive;font-size:1rem;color:#fff;font-weight:700;margin-bottom:1rem;}
+.bihar-launch{background:#1a1a1a;border-radius:14px;padding:1.1rem;border:1px solid rgba(232,101,10,0.15);}
+.launch-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(232,101,10,0.12);border:1px solid rgba(232,101,10,0.25);color:var(--saffron);padding:.25rem .7rem;border-radius:6px;font-size:.7rem;font-weight:700;margin-bottom:.7rem;}
+.cities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.7rem;}
+.city-chip{background:#222;border-radius:8px;padding:.4rem;text-align:center;font-size:.68rem;color:#aaa;font-weight:600;}
+.city-chip.launch{background:rgba(232,101,10,0.12);border:1px solid rgba(232,101,10,0.25);color:var(--saffron);}
+.launch-note{font-size:.68rem;color:#666;margin-top:.7rem;text-align:center;}
+
+/* SAFETY */
+.safety{background:var(--white);}
+.safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+.safety-card{background:var(--cream);border:1.5px solid var(--cream2);border-radius:14px;padding:1.4rem;transition:border-color .2s;}
+.safety-card:hover{border-color:var(--saffron);}
+.sc-icon{font-size:1.7rem;margin-bottom:.6rem;}
+.sc-title{font-weight:700;font-size:.9rem;margin-bottom:.25rem;}
+.sc-desc{font-size:.8rem;color:#A0A8C0;line-height:1.5;}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--cream);}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin-bottom:2rem;}
+.test-card{background:var(--white);border-radius:14px;padding:1.4rem;border:1px solid var(--cream2);}
+.test-stars{color:#FFB800;font-size:.9rem;margin-bottom:.6rem;}
+.test-text{color:var(--charcoal2);font-size:.88rem;line-height:1.7;margin-bottom:1rem;font-style:italic;}
+.test-author{display:flex;align-items:center;gap:.7rem;}
+.test-av{width:38px;height:38px;border-radius:50%;background:var(--saffron);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff;font-weight:700;flex-shrink:0;}
+.test-name{font-weight:700;font-size:.85rem;}
+.test-role{font-size:.72rem;color:#A0A8C0;}
+.feedback-form-wrap{background:var(--white);border-radius:16px;padding:1.6rem;border:1px solid var(--cream2);max-width:560px;margin:0 auto;}
+.fb-title{font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:700;margin-bottom:1rem;}
+.stars-select{display:flex;gap:.3rem;margin-bottom:.8rem;}
+.star-btn{background:none;border:none;font-size:1.3rem;cursor:pointer;color:#ddd;transition:color .2s;}
+.star-btn.sel{color:#FFB800;}
+.fb-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.7rem;}
+.fb-inp{width:100%;border:1.5px solid var(--cream3);border-radius:8px;padding:.6rem .8rem;font-family:'Mukta',sans-serif;font-size:.85rem;color:var(--charcoal);background:var(--cream);outline:none;}
+.fb-inp:focus{border-color:var(--saffron);}
+.fb-input{width:100%;border:1.5px solid var(--cream3);border-radius:8px;padding:.6rem .8rem;font-family:'Mukta',sans-serif;font-size:.85rem;color:var(--charcoal);background:var(--cream);outline:none;resize:vertical;min-height:80px;margin-bottom:.7rem;}
+.fb-input:focus{border-color:var(--saffron);}
+.fb-submit{background:var(--saffron);color:#fff;border:none;border-radius:8px;padding:.75rem 1.8rem;font-family:'Mukta',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;}
+
+/* APP COMING SOON */
+.appdown{background:var(--charcoal);text-align:center;}
+.appdown .sec-title{color:#fff;}
+.appdown .sec-sub{color:#aaa;max-width:480px;margin:.7rem auto 2rem;}
+.coming-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(232,101,10,0.15);border:1px solid rgba(232,101,10,0.3);color:#FF9A50;padding:.3rem .8rem;border-radius:6px;font-size:.72rem;font-weight:700;margin-bottom:1.2rem;}
+.app-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem;}
+.app-btn{display:flex;align-items:center;gap:.7rem;background:#1a1a1a;border:1.5px solid #333;border-radius:12px;padding:.65rem 1.3rem;cursor:pointer;opacity:.7;}
+.app-btn-icon{font-size:1.5rem;}
+.app-btn-small{font-size:.65rem;color:#888;}
+.app-btn-store{font-size:.9rem;font-weight:700;color:#fff;}
+.notify-form{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;}
+.notify-inp{background:#1a1a1a;border:1.5px solid #333;border-radius:8px;padding:.7rem 1.1rem;color:#fff;font-family:'Mukta',sans-serif;font-size:.88rem;width:240px;outline:none;}
+.notify-inp:focus{border-color:var(--saffron);}
+.notify-btn{background:var(--saffron);color:#fff;border:none;border-radius:8px;padding:.7rem 1.4rem;font-family:'Mukta',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;}
+
+/* ABOUT */
+.about{background:#07111F;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.mv-cards{display:flex;flex-direction:column;gap:.9rem;margin-top:1.2rem;}
+.mv-card{background:var(--white);border-radius:14px;padding:1.2rem;border:1px solid var(--cream2);}
+.mv-icon{font-size:1.3rem;margin-bottom:.5rem;}
+.mv-title{font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;margin-bottom:.3rem;}
+.mv-desc{font-size:.82rem;color:#A0A8C0;line-height:1.5;}
+.numbers-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1.2rem;}
+.num-card{background:var(--white);border-radius:12px;padding:1rem;text-align:center;border:1px solid var(--cream2);}
+.num-val{font-family:'Baloo 2',cursive;font-size:1.7rem;font-weight:800;color:var(--saffron);}
+.num-label{font-size:.72rem;color:#A0A8C0;margin-top:.15rem;}
+.team-section{margin-top:1.8rem;}
+.team-title{font-family:'Baloo 2',cursive;font-size:1rem;font-weight:700;margin-bottom:1rem;}
+.team-card{background:var(--white);border-radius:16px;padding:1.3rem;border:1px solid var(--cream2);display:flex;align-items:center;gap:1rem;max-width:300px;}
+.team-av{width:56px;height:56px;border-radius:50%;background:var(--saffron);display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:800;color:#fff;flex-shrink:0;}
+.team-name{font-family:'Baloo 2',cursive;font-size:1rem;font-weight:700;}
+.team-role{font-size:.78rem;color:#A0A8C0;margin-top:.15rem;}
+
+/* CONTACT */
+.contact{background:#0A1830;}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:.9rem;margin-top:1.2rem;}
+.ci-item{display:flex;align-items:center;gap:.7rem;font-size:.9rem;}
+.ci-icon{font-size:1.1rem;width:34px;height:34px;background:rgba(232,101,10,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.contact-form{background:var(--cream);border-radius:16px;padding:1.6rem;border:1px solid var(--cream2);}
+.cf-title{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:700;margin-bottom:1rem;}
+.cf-inp,.cf-sel,.cf-ta{width:100%;border:1.5px solid var(--cream3);border-radius:8px;padding:.65rem .85rem;font-family:'Mukta',sans-serif;font-size:.88rem;color:var(--charcoal);background:var(--white);outline:none;margin-bottom:.7rem;}
+.cf-ta{resize:vertical;min-height:90px;}
+.cf-inp:focus,.cf-sel:focus,.cf-ta:focus{border-color:var(--saffron);}
+.cf-submit{background:var(--saffron);color:#fff;border:none;border-radius:8px;padding:.75rem;font-family:'Mukta',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;width:100%;}
+
+/* SAARTHI */
+.saarthi-section{background:var(--saffron);padding:4rem 2.5rem;position:relative;overflow:hidden;}
+.saarthi-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.saarthi-form{background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);border-radius:20px;padding:1.8rem;border:1px solid rgba(255,255,255,0.2);}
+.sf-title{font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:1.2rem;}
+.sf-inp,.sf-sel{width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:.7rem .9rem;color:#fff;font-family:'Mukta',sans-serif;font-size:.88rem;margin-bottom:.7rem;outline:none;}
+.sf-inp::placeholder{color:rgba(255,255,255,0.5);}
+.sf-submit{width:100%;background:#fff;color:var(--saffron);border:none;border-radius:8px;padding:.8rem;font-family:'Mukta',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;}
+.perk{display:flex;align-items:center;gap:.7rem;color:#fff;font-size:.9rem;font-weight:600;margin-bottom:.6rem;}
+.perk-check{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;}
+
+/* FOOTER */
+footer{background:#0a0a0a;padding:3rem 2.5rem 1.5rem;}
+.footer-inner{max-width:1200px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;}
+.footer-brand p{font-size:.8rem;line-height:1.6;color:#555;max-width:230px;margin-top:.5rem;}
+.footer-brand .hindi{font-size:.72rem;color:#444;margin-top:.25rem;}
+.social-links{display:flex;gap:.5rem;margin-top:.8rem;}
+.social-btn{width:32px;height:32px;border-radius:7px;background:#1a1a1a;border:1px solid #222;display:flex;align-items:center;justify-content:center;font-size:.78rem;cursor:pointer;transition:all .2s;text-decoration:none;color:#fff;}
+.social-btn:hover{border-color:var(--saffron);}
+.footer-col-title{font-weight:700;color:#777;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.8rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.footer-links a{color:#444;text-decoration:none;font-size:.8rem;transition:color .2s;}
+.footer-links a:hover{color:var(--saffron);}
+.footer-bottom{border-top:1px solid #1a1a1a;padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;}
+.footer-copy{font-size:.75rem;color:#333;}
+.footer-made{font-size:.75rem;color:#333;}
+.footer-made span{color:var(--saffron);}
+
+/* LOGIN MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--white);border-radius:20px;padding:2rem;width:100%;max-width:380px;position:relative;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#A0A8C0;}
+.modal-logo{font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;color:var(--saffron);margin-bottom:.2rem;}
+.modal-title{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;margin-bottom:.3rem;}
+.modal-sub{font-size:.82rem;color:#A0A8C0;margin-bottom:1.5rem;}
+.modal-inp{width:100%;border:1.5px solid var(--cream3);border-radius:10px;padding:.8rem .9rem;font-family:'Mukta',sans-serif;font-size:.95rem;color:var(--charcoal);background:var(--cream);outline:none;margin-bottom:.8rem;}
+.modal-inp:focus{border-color:var(--saffron);}
+.modal-btn{width:100%;background:var(--saffron);color:#fff;border:none;border-radius:10px;padding:.85rem;font-family:'Mukta',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;}
+.modal-note{font-size:.72rem;color:#A0A8C0;text-align:center;margin-top:.7rem;}
+.otp-inputs{display:flex;gap:.5rem;justify-content:center;margin-bottom:.9rem;}
+.otp-inp{width:42px;height:48px;border:1.5px solid var(--cream3);border-radius:10px;text-align:center;font-size:1.3rem;font-weight:700;font-family:'Mukta',sans-serif;outline:none;background:var(--cream);}
+.otp-inp:focus{border-color:var(--saffron);}
+
+/* CALENDAR */
+.cal-day{text-align:center;padding:.45rem .2rem;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--charcoal);transition:all .2s;border:1.5px solid transparent;}
+.cal-day:hover:not(.cal-disabled):not(.cal-empty){background:rgba(79,156,249,0.1);border-color:rgba(79,156,249,0.3);}
+.cal-day.cal-today{border-color:#4F9CF9;color:#4F9CF9;}
+.cal-day.cal-selected{background:#4F9CF9;color:#fff;border-color:#4F9CF9;}
+.cal-day.cal-disabled{color:#ccc;cursor:not-allowed;background:none;}
+.cal-day.cal-empty{cursor:default;}
+.time-btn{background:var(--cream);border:1.5px solid var(--cream3);border-radius:10px;padding:.55rem .4rem;font-family:'Mukta',sans-serif;font-size:.75rem;font-weight:600;color:var(--charcoal);cursor:pointer;text-align:center;transition:all .2s;line-height:1.4;}
+.time-btn span{font-size:.65rem;color:#A0A8C0;display:block;}
+.time-btn:hover,.time-btn.selected{background:rgba(79,156,249,0.1);border-color:#4F9CF9;color:#4F9CF9;}
+.time-btn.selected span{color:#2B7DE0;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .vehicles-grid{grid-template-columns:repeat(4,1fr);}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  nav{padding:0 1.2rem;}
+  nav .nav-links{display:none;}
+  .nav-hamburger{display:block;}
+  section{padding:3rem 1.2rem;}
+  .saarthi-section{padding:3rem 1.2rem;}
+  footer{padding:2.5rem 1.2rem 1.2rem;}
+  .hero-inner{grid-template-columns:1fr;padding:4rem 1.2rem 3rem;}
+  .hero-phone-wrap{display:none;}
+  .booking-grid{grid-template-columns:1fr;}
+  .booking-map-side{position:relative;top:0;}
+  #bookingMap{height:280px;}
+  .steps-grid{grid-template-columns:1fr;}
+  .why-inner{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .contact-inner{grid-template-columns:1fr;}
+  .saarthi-inner{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .vehicles-grid{grid-template-columns:repeat(4,1fr);}
+  .hero-stats{gap:1.5rem;}
+  .extra-opts,.schedule-row{grid-template-columns:1fr;}
+  .loc-row{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .vehicles-grid{grid-template-columns:repeat(3,1fr);}
+  .footer-top{grid-template-columns:1fr;}
+  .hero h1{font-size:2rem;}
+  .fb-row{grid-template-columns:1fr;}
+  .numbers-row{grid-template-columns:repeat(3,1fr);}
+  .cities-grid{grid-template-columns:repeat(3,1fr);}
+  .hero-badge{font-size:.7rem;}
+  .btn-primary,.btn-secondary{padding:.75rem 1.4rem;font-size:.9rem;}
+}
+
+/* Slideshow handled by JS */
+.hero-slide.slide1{background:linear-gradient(rgba(5,12,25,0.68),rgba(5,12,25,0.68)),url("https://images.pexels.com/photos/3849168/pexels-photo-3849168.jpeg?auto=compress&cs=tinysrgb&w=1920") center/cover no-repeat;}
+.hero-slide.slide2{background:linear-gradient(rgba(5,12,25,0.68),rgba(5,12,25,0.68)),url("https://images.pexels.com/photos/12532708/pexels-photo-12532708.jpeg?auto=compress&cs=tinysrgb&w=1920") center/cover no-repeat;}
+.hero-slide.slide3{background:linear-gradient(rgba(5,12,25,0.68),rgba(5,12,25,0.68)),url("https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=1920") center/cover no-repeat;}
+.hero-slide.slide4{background:linear-gradient(rgba(5,12,25,0.68),rgba(5,12,25,0.68)),url("https://images.pexels.com/photos/19992231/pexels-photo-19992231.jpeg?auto=compress&cs=tinysrgb&w=1920") center/cover no-repeat;}
+
+</style>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDW--E_99m9PX1IGYGerzUh8tMvXyHqMtY",
+    authDomain: "vatsx-178d0.firebaseapp.com",
+    projectId: "vatsx-178d0",
+    storageBucket: "vatsx-178d0.firebasestorage.app",
+    messagingSenderId: "261397441313",
+    appId: "1:261397441313:web:0fbcb3db8c01ca166d2c60",
+    measurementId: "G-K0W1QPEE3Y"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  auth.languageCode = 'hi';
+
+  window.firebaseAuth = auth;
+  window.RecaptchaVerifier = RecaptchaVerifier;
+  window.signInWithPhoneNumber = signInWithPhoneNumber;
+  window.confirmationResult = null;
+
+  window.setupRecaptcha = function() {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response) => {}
+      });
+    }
+  };
+</script>
+</head>
+<body>
+<div id="recaptcha-container"></div>
+
+<!-- CALENDAR MODAL -->
+<div class="modal-overlay" id="calendarModal">
+  <div class="modal" style="max-width:420px;">
+    <button class="modal-close" onclick="closeCalendar()">✕</button>
+    <div class="modal-title" style="font-size:1.2rem;margin-bottom:1rem;">📅 Schedule Booking / बुकिंग शेड्यूल करें</div>
+    <div id="calendarWrap">
+      <!-- Calendar Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+        <button onclick="prevMonth()" style="background:var(--cream2);border:none;border-radius:8px;padding:.4rem .8rem;cursor:pointer;font-size:1rem;">←</button>
+        <div id="calMonthYear" style="font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:700;color:var(--charcoal);"></div>
+        <button onclick="nextMonth()" style="background:var(--cream2);border:none;border-radius:8px;padding:.4rem .8rem;cursor:pointer;font-size:1rem;">→</button>
+      </div>
+      <!-- Day Headers -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;">
+        <div style="text-align:center;font-size:.72rem;font-weight:700;color:#A0A8C0;padding:.3rem 0;">Su</div>
+        <div style="text-align:center;font-size:.72rem;font-weight:700;color:#A0A8C0;padding:.3rem 0;">Mo</div>
+        <div style="text-align:center;font-size:.72rem;font-weight:700;color:#A0A8C0;padding:.3rem 0;">Tu</div>
+        <div style="text-align:center;font-size:.72rem;font-weight:700;color:#A0A8C0;padding:.3rem 0;">We</div>
+        <div style="text-align:center;font-size:.72rem;font-weight:700;color:#A0A8C0;padding:.3rem 0;">Th</div>
+        <div style="text-align:center;font-size:.72rem;font-weight:700;color:#A0A8C0;padding:.3rem 0;">Fr</div>
+        <div style="text-align:center;font-size:.72rem;font-weight:700;color:#A0A8C0;padding:.3rem 0;">Sa</div>
+      </div>
+      <!-- Calendar Days -->
+      <div id="calDays" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:1.2rem;"></div>
+      <!-- Time Picker -->
+      <div id="timePicker" style="display:none;">
+        <div style="font-size:.8rem;font-weight:700;color:var(--charcoal);margin-bottom:.6rem;">⏰ Time Select / समय चुनें</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-bottom:.8rem;">
+          <button class="time-btn" onclick="selectTime(this,'5AM-8AM')">🌅 Early Morning<br/><span>5AM - 8AM</span></button>
+          <button class="time-btn" onclick="selectTime(this,'8AM-12PM')">☀️ Morning<br/><span>8AM - 12PM</span></button>
+          <button class="time-btn" onclick="selectTime(this,'12PM-4PM')">🌤️ Afternoon<br/><span>12PM - 4PM</span></button>
+          <button class="time-btn" onclick="selectTime(this,'4PM-8PM')">🌆 Evening<br/><span>4PM - 8PM</span></button>
+          <button class="time-btn" onclick="selectTime(this,'8PM-11PM')">🌙 Night<br/><span>8PM - 11PM</span></button>
+          <div style="display:flex;flex-direction:column;gap:.3rem;">
+            <div style="font-size:.72rem;color:#A0A8C0;font-weight:600;">⏰ Custom</div>
+            <input type="time" id="customTime" style="border:1.5px solid var(--cream3);border-radius:8px;padding:.4rem .6rem;font-family:'Mukta',sans-serif;font-size:.85rem;outline:none;width:100%;" onchange="selectCustomTime(this)"/>
+          </div>
+        </div>
+        <button onclick="confirmSchedule()" style="width:100%;background:#4F9CF9;color:#fff;border:none;border-radius:10px;padding:.8rem;font-family:'Mukta',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;">✅ Confirm Schedule</button>
+      </div>
+      <!-- Selected Info -->
+      <div id="selectedDateTimeInfo" style="display:none;background:rgba(79,156,249,0.08);border:1px solid rgba(79,156,249,0.2);border-radius:8px;padding:.6rem .9rem;font-size:.82rem;margin-bottom:.8rem;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-logo">VatsX</div>
+    <div class="modal-title" id="modalTitle">Welcome!</div>
+    <div class="modal-sub" id="modalSub">Mobile number se login karein / Enter your mobile number</div>
+    <div id="phoneStep">
+      <input class="modal-inp" type="tel" id="phoneInput" placeholder="📱 Mobile Number" maxlength="10"/>
+      <button class="modal-btn" onclick="sendOTP()">Send OTP / OTP भेजें</button>
+      <div class="modal-note">We'll send a verification OTP to your number</div>
+    </div>
+    <div id="otpStep" style="display:none;">
+      <div style="font-size:.82rem;color:#A0A8C0;margin-bottom:.9rem;text-align:center;">OTP sent to <strong id="sentTo"></strong></div>
+      <div class="otp-inputs">
+        <input class="otp-inp" maxlength="1" type="number" oninput="otpNext(this,0)"/>
+        <input class="otp-inp" maxlength="1" type="number" oninput="otpNext(this,1)"/>
+        <input class="otp-inp" maxlength="1" type="number" oninput="otpNext(this,2)"/>
+        <input class="otp-inp" maxlength="1" type="number" oninput="otpNext(this,3)"/>
+        <input class="otp-inp" maxlength="1" type="number" oninput="otpNext(this,4)"/>
+        <input class="otp-inp" maxlength="1" type="number" oninput="otpNext(this,5)"/>
+      </div>
+      <button class="modal-btn" onclick="verifyOTP()">Verify & Continue</button>
+      <div class="modal-note" style="margin-top:.5rem;cursor:pointer;color:var(--saffron);" onclick="resendOTP()">Resend OTP</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-wrap"><a href="#" style="text-decoration:none;display:flex;align-items:baseline;gap:1px;"><span style="font-family:'Manrope','Arial Black',sans-serif;font-size:24px;font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1;">VATS</span><span style="font-family:'Manrope',Arial,sans-serif;font-size:24px;font-weight:200;color:#4F9CF9;letter-spacing:-0.5px;">X</span></a></div>
+  <ul class="nav-links">
+    <li><a href="#vehicles">Vehicles</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btnHI" onclick="setLang('hi')">हिं</button>
+    </div>
+    <button class="btn-login" onclick="openModal()">Login</button>
+    <button class="btn-saarthi" onclick="document.getElementById('saarthi').scrollIntoView({behavior:'smooth'})">Saarthi Bano</button>
+    <button class="nav-hamburger" onclick="toggleMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#vehicles" onclick="toggleMenu()">Vehicles</a>
+  <a href="#how" onclick="toggleMenu()">How it Works</a>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <div class="mobile-menu-btns">
+    <button class="btn-login" onclick="openModal();toggleMenu();" style="flex:1;">Login</button>
+    <button class="btn-saarthi" onclick="document.getElementById('saarthi').scrollIntoView({behavior:'smooth'});toggleMenu();" style="flex:1;">Saarthi Bano</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-slides">
+    <div class="hero-slide slide1 active">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(79,156,249,0.18) 0%,transparent 60%);"></div>
+    </div>
+    <div class="hero-slide slide2">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(79,156,249,0.12) 0%,transparent 60%);"></div>
+    </div>
+    <div class="hero-slide slide3">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 70%,rgba(79,156,249,0.12) 0%,transparent 60%);"></div>
+    </div>
+    <div class="hero-slide slide4">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(79,156,249,0.15) 0%,transparent 60%);"></div>
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="badge-dot"></span> <span data-en="🇮🇳 Launching in Bihar First" data-hi="🇮🇳 बिहार में पहले लॉन्च">🇮🇳 Launching in Bihar First</span></div>
+      <h1 data-en="India's First <span class='hl'>All-Vehicle</span><br/>Booking App" data-hi="भारत का पहला <span class='hl'>ऑल-व्हीकल</span><br/>बुकिंग ऐप">India's First <span class="hl">All-Vehicle</span><br/>Booking App</h1>
+      <div class="hero-hindi" data-en="India's first all-vehicle booking platform" data-hi="भारत का पहला ऑल-व्हीकल बुकिंग प्लेटफॉर्म">India's first all-vehicle booking platform</div>
+      <p class="hero-desc" data-en="From tractors for farmers to trucks for traders — book any vehicle, anywhere in Bihar." data-hi="किसानों के लिए ट्रैक्टर से लेकर व्यापारियों के लिए ट्रक — बिहार में कहीं भी कोई भी गाड़ी बुक करें।">From tractors for farmers to trucks for traders — book any vehicle, anywhere in Bihar.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="bookRide()" data-en="🚗 Book a Ride" data-hi="🚗 राइड बुक करें">🚗 Book a Ride</button>
+        <button class="btn-secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})" data-en="How it Works" data-hi="कैसे काम करता है">How it Works</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">7+</div><div class="hstat-label" data-en="Vehicle Types" data-hi="वाहन प्रकार">Vehicle Types</div></div>
+        <div class="hstat"><div class="hstat-num">20</div><div class="hstat-label" data-en="Blocks Covered" data-hi="प्रखंड">Blocks Covered</div></div>
+        <div class="hstat"><div class="hstat-num">24/7</div><div class="hstat-label" data-en="Booking Available" data-hi="बुकिंग">Booking Available</div></div>
+      </div>
+    </div>
+    <div class="hero-phone-wrap">
+      <div class="hero-phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-top"><div class="phone-logo-text" style="color:#4F9CF9;">VatsX</div><div class="phone-loc">📍 Samastipur</div></div>
+          <div class="phone-search">🔍 Where do you want to go?</div>
+          <div class="phone-vehicles">
+            <div class="pv act"><div class="pv-icon">🚗</div><div class="pv-label">Cab</div></div>
+            <div class="pv"><div class="pv-icon">🚜</div><div class="pv-label">Tractor</div></div>
+            <div class="pv"><div class="pv-icon">🚛</div><div class="pv-label">Truck</div></div>
+            <div class="pv"><div class="pv-icon">🛺</div><div class="pv-label">Auto</div></div>
+            <div class="pv"><div class="pv-icon">🚐</div><div class="pv-label">Van</div></div>
+            <div class="pv"><div class="pv-icon">🚚</div><div class="pv-label">Tempo</div></div>
+          </div>
+          <div class="phone-nearby">Nearby Saarthis (3)</div>
+          <div class="phone-driver">
+            <div class="pd-av">R</div>
+            <div><div class="pd-name">Ramesh Kumar</div><div class="pd-veh">Tractor • 1.2 km</div></div>
+            <div class="pd-rat">★ 4.9</div>
+          </div>
+          <button class="phone-book">Book Now — ₹299</button>
+        </div>
+      </div>
+      <div class="hero-float hf1">🌾 Farmer Friendly</div>
+      <div class="hero-float hf2">💼 Business Ready</div>
+    </div>
+  </div>
+  <div class="slide-dots">
+    <div class="sdot active" onclick="goSlide(0)"></div>
+    <div class="sdot" onclick="goSlide(1)"></div>
+    <div class="sdot" onclick="goSlide(2)"></div>
+    <div class="sdot" onclick="goSlide(3)"></div>
+  </div>
+</section>
+
+<!-- VEHICLES -->
+<section class="vehicles" id="vehicles">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag" data-en="Our Fleet" data-hi="हमारे वाहन">Our Fleet</div>
+      <div class="sec-title" data-en="Every Vehicle You Need" data-hi="हर जरूरत की गाड़ी">Every Vehicle You Need</div>
+      <div class="sec-sub" data-en="Right vehicle for every need — Click on any vehicle to book" data-hi="हर जरूरत के लिए सही गाड़ी — किसी भी वाहन पर क्लिक करें।">Right vehicle for every need — Click on any vehicle to book</div>
+    </div>
+    <div class="vehicles-grid">
+      <div class="vc active" onclick="selectVehicle(this,'cab')"><div class="vc-icon">🚗</div><div class="vc-name" data-en="Cab" data-hi="कैब">Cab</div><span class="vc-tag tag-city">City</span></div>
+      <div class="vc" onclick="selectVehicle(this,'tractor')"><div class="vc-icon">🚜</div><div class="vc-name" data-en="Tractor" data-hi="ट्रैक्टर">Tractor</div><span class="vc-tag tag-farm">Farm</span></div>
+      <div class="vc" onclick="selectVehicle(this,'truck')"><div class="vc-icon">🚛</div><div class="vc-name" data-en="Truck" data-hi="ट्रक">Truck</div><span class="vc-tag tag-biz">Business</span></div>
+      <div class="vc" onclick="selectVehicle(this,'auto')"><div class="vc-icon">🛺</div><div class="vc-name" data-en="Auto" data-hi="ऑटो">Auto</div><span class="vc-tag tag-city">City</span></div>
+      <div class="vc" onclick="selectVehicle(this,'van')"><div class="vc-icon">🚐</div><div class="vc-name" data-en="Van" data-hi="वैन">Van</div><span class="vc-tag tag-biz">Group</span></div>
+      <div class="vc" onclick="selectVehicle(this,'tempo')"><div class="vc-icon">🚚</div><div class="vc-name" data-en="Tempo" data-hi="टेम्पो">Tempo</div><span class="vc-tag tag-biz">Goods</span></div>
+      <div class="vc" onclick="selectVehicle(this,'bus')"><div class="vc-icon">🚌</div><div class="vc-name" data-en="Bus" data-hi="बस">Bus</div><span class="vc-tag tag-city">Bulk</span></div>
+    </div>
+
+    <!-- BOOKING SECTION -->
+    <div class="booking-section show" id="bookingSection">
+      <div class="booking-grid">
+        <div class="booking-form-side">
+          <div id="extraOpts"></div>
+
+          <!-- PICKUP -->
+          <div class="loc-field" id="puField">
+            <div class="form-label" style="font-size:.8rem;font-weight:700;margin-bottom:.35rem;display:block;">📍 Pickup Location <span style="color:#A0A8C0;font-weight:400;font-size:.72rem;">/ लेने की जगह</span></div>
+            <button class="loc-input-btn" id="puBtn" onclick="toggleDrop('pu')">
+              <span id="puDisplay"><span class="loc-placeholder">Select pickup location / लेने की जगह चुनें</span></span>
+            </button>
+            <div class="loc-dropdown" id="puDrop">
+
+<!-- Popular Places -->
+<div style="margin-bottom:.6rem;">
+  <div style="font-size:.72rem;font-weight:700;color:#A0A8C0;margin-bottom:.4rem;">⭐ Popular / लोकप्रिय जगह</div>
+  <div style="display:flex;flex-wrap:wrap;gap:.35rem;">
+    <button onclick="selectPopular('pu','Samastipur Railway Station','Samastipur')" class="pop-chip">🚉 Samastipur Jn.</button>
+    <button onclick="selectPopular('pu','Rosera Railway Station','Rosera')" class="pop-chip">🚉 Rosera Stn.</button>
+    <button onclick="selectPopular('pu','Dalsinghsarai Railway Station','Dalsinghsarai')" class="pop-chip">🚉 Dalsinghsarai</button>
+    <button onclick="selectPopular('pu','Mohiuddinagar Railway Station','Mohiuddinagar')" class="pop-chip">🚉 Mohiuddinagar</button>
+    <button onclick="selectPopular('pu','Singhia Railway Station','Singhia')" class="pop-chip">🚉 Singhia Stn.</button>
+    <button onclick="selectPopular('pu','Pusa Agricultural Institute','Pusa')" class="pop-chip">🏛️ Pusa Institute</button>
+    <button onclick="selectPopular('pu','Samastipur Bus Stand','Samastipur')" class="pop-chip">🚌 Bus Stand</button>
+    <button onclick="selectPopular('pu','Samastipur Sadar Hospital','Samastipur')" class="pop-chip">🏥 Sadar Hospital</button>
+  </div>
+</div>
+              <!-- Option 1: GPS -->
+              <button class="gps-btn" onclick="useGPS('pu')">📡 Current Location / वर्तमान स्थान</button>
+              <div class="divider"><div class="div-line"></div><div class="div-text">या / OR</div><div class="div-line"></div></div>
+              <!-- Option 2: Area Select -->
+              <div style="font-size:.75rem;font-weight:700;color:#A0A8C0;margin-bottom:.4rem;">📍 Area Select / क्षेत्र चुनें</div>
+              <div class="loc-row">
+                <select class="sel" id="pu-district" onchange="loadBlocks('pu')"><option value="">District / जिला</option><option value="Samastipur">Samastipur</option></select>
+                <select class="sel" id="pu-block" onchange="loadVillages('pu')" disabled><option value="">Block / प्रखंड</option></select>
+              </div>
+              <div style="font-size:.75rem;font-weight:700;color:#A0A8C0;margin-bottom:.3rem;">🏘️ Village / गाँव</div><select class="sel" id="pu-village" onchange="villageChange('pu')" disabled style="width:100%;margin-bottom:.5rem;"><option value="">Village / गाँव चुनें</option><option value="__custom__">✏️ Khud likho</option></select><div id="pu-custom-wrap" style="display:none;"><input class="inp-full" id="pu-custom" placeholder="Village ka naam likhein..." oninput="updateLocDisplay('pu')" style="margin-bottom:.3rem;"/></div>
+              <input class="inp-full" id="pu-ward" placeholder="Ward No. (optional)" oninput="updateLocDisplay('pu')" style="margin-bottom:.6rem;"/>
+              <div class="divider"><div class="div-line"></div><div class="div-text">या / OR</div><div class="div-line"></div></div>
+              <!-- Option 3: Manual Type -->
+              <div style="font-size:.75rem;font-weight:700;color:#A0A8C0;margin-bottom:.4rem;">✏️ Khud Likho / खुद लिखें</div>
+              <input class="inp-full" id="pu-manual" placeholder="Apna location likhein... e.g. Rampur, Near School" oninput="manualLocUpdate('pu')" style="margin-bottom:.6rem;"/>
+              <button onclick="doneLocation('pu')" style="width:100%;background:#4F9CF9;color:#fff;border:none;border-radius:8px;padding:.65rem;font-family:'Mukta',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:.3rem;">✅ Done / हो गया</button>
+            </div>
+          </div>
+
+          <!-- DROP -->
+          <div class="loc-field" id="drField">
+            <div class="form-label" style="font-size:.8rem;font-weight:700;margin-bottom:.35rem;display:block;">🏁 Drop Location <span style="color:#A0A8C0;font-weight:400;font-size:.72rem;">/ छोड़ने की जगह</span></div>
+            <button class="loc-input-btn" id="drBtn" onclick="toggleDrop('dr')">
+              <span id="drDisplay"><span class="loc-placeholder">Select drop location / छोड़ने की जगह</span></span>
+            </button>
+            <div class="loc-dropdown" id="drDrop">
+
+<!-- Popular Places -->
+<div style="margin-bottom:.6rem;">
+  <div style="font-size:.72rem;font-weight:700;color:#A0A8C0;margin-bottom:.4rem;">⭐ Popular / लोकप्रिय जगह</div>
+  <div style="display:flex;flex-wrap:wrap;gap:.35rem;">
+    <button onclick="selectPopular('dr','Samastipur Railway Station','Samastipur')" class="pop-chip">🚉 Samastipur Jn.</button>
+    <button onclick="selectPopular('dr','Rosera Railway Station','Rosera')" class="pop-chip">🚉 Rosera Stn.</button>
+    <button onclick="selectPopular('dr','Dalsinghsarai Railway Station','Dalsinghsarai')" class="pop-chip">🚉 Dalsinghsarai</button>
+    <button onclick="selectPopular('dr','Mohiuddinagar Railway Station','Mohiuddinagar')" class="pop-chip">🚉 Mohiuddinagar</button>
+    <button onclick="selectPopular('dr','Singhia Railway Station','Singhia')" class="pop-chip">🚉 Singhia Stn.</button>
+    <button onclick="selectPopular('dr','Pusa Agricultural Institute','Pusa')" class="pop-chip">🏛️ Pusa Institute</button>
+    <button onclick="selectPopular('dr','Samastipur Bus Stand','Samastipur')" class="pop-chip">🚌 Bus Stand</button>
+    <button onclick="selectPopular('dr','Samastipur Sadar Hospital','Samastipur')" class="pop-chip">🏥 Sadar Hospital</button>
+  </div>
+</div>
+              <!-- Option 1: GPS -->
+              <button class="gps-btn" onclick="useGPS('dr')">📡 Current Location / वर्तमान स्थान</button>
+              <div class="divider"><div class="div-line"></div><div class="div-text">या / OR</div><div class="div-line"></div></div>
+              <!-- Option 2: Area Select -->
+              <div style="font-size:.75rem;font-weight:700;color:#A0A8C0;margin-bottom:.4rem;">📍 Area Select / क्षेत्र चुनें</div>
+              <div class="loc-row">
+                <select class="sel" id="dr-district" onchange="loadBlocks('dr')"><option value="">District / जिला</option><option value="Samastipur">Samastipur</option></select>
+                <select class="sel" id="dr-block" onchange="loadVillages('dr')" disabled><option value="">Block / प्रखंड</option></select>
+              </div>
+              <div style="font-size:.75rem;font-weight:700;color:#A0A8C0;margin-bottom:.3rem;">🏘️ Village / गाँव</div><select class="sel" id="dr-village" onchange="villageChange('dr')" disabled style="width:100%;margin-bottom:.5rem;"><option value="">Village / गाँव चुनें</option><option value="__custom__">✏️ Khud likho</option></select><div id="dr-custom-wrap" style="display:none;"><input class="inp-full" id="dr-custom" placeholder="Village ka naam likhein..." oninput="updateLocDisplay('dr')" style="margin-bottom:.3rem;"/></div>
+              <input class="inp-full" id="dr-ward" placeholder="Ward No. (optional)" oninput="updateLocDisplay('dr')" style="margin-bottom:.6rem;"/>
+              <div class="divider"><div class="div-line"></div><div class="div-text">या / OR</div><div class="div-line"></div></div>
+              <!-- Option 3: Manual Type -->
+              <div style="font-size:.75rem;font-weight:700;color:#A0A8C0;margin-bottom:.4rem;">✏️ Khud Likho / खुद लिखें</div>
+              <input class="inp-full" id="dr-manual" placeholder="Apna location likhein... e.g. Rosera Bus Stand" oninput="manualLocUpdate('dr')" style="margin-bottom:.6rem;"/>
+              <button onclick="doneLocation('dr')" style="width:100%;background:#4F9CF9;color:#fff;border:none;border-radius:8px;padding:.65rem;font-family:'Mukta',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:.3rem;">✅ Done / हो गया</button>
+            </div>
+          </div>
+
+          <!-- DISTANCE + FARE -->
+          <div class="dist-fare-box" id="distFareBox" style="display:none;" style="display:none;">
+            <div class="dist-row">
+              <span class="dist-label">📏 Distance</span>
+              <span class="dist-val" id="distVal">--</span>
+            </div>
+            <div class="dist-row">
+              <span class="dist-label">⏱️ Est. Time</span>
+              <span class="dist-val" id="timeVal">--</span>
+            </div>
+            <div class="fare-divider"></div>
+            <div class="fare-label">💰 Fare Estimate / अनुमानित किराया</div>
+            <div class="fare-amount" id="fareAmt">₹ ---</div>
+            <div class="fare-breakdown" id="fareBreakdown"></div>
+          </div>
+
+          <div style="margin-bottom:.8rem;">
+            <div class="form-label" style="font-size:.78rem;font-weight:700;margin-bottom:.4rem;">⏰ When / कब?</div>
+            <select class="sel" id="scheduleSelectMain" onchange="handleScheduleMain(this)" style="width:100%;">
+              <option value="now">🚗 Now / अभी</option>
+              <option value="later">📅 Schedule Later / बाद में</option>
+            </select>
+            <div id="scheduleInfoMain" style="display:none;margin-top:.5rem;background:rgba(79,156,249,0.1);border:1px solid rgba(79,156,249,0.3);border-radius:8px;padding:.5rem .8rem;font-size:.8rem;color:#4F9CF9;"></div>
+          </div>
+          <button class="book-now-btn" onclick="bookRide()">🚗 Book Now / अभी बुक करें</button>
+        </div>
+
+        <!-- MAP -->
+        <div class="booking-map-side">
+          <div id="bookingMap"></div>
+          <div id="mapInfoBar" style="display:none;background:#0A1628;border-top:1px solid #1E3560;padding:.7rem 1rem;align-items:center;justify-content:space-around;gap:.5rem;">
+            <div style="text-align:center;">
+              <div style="font-size:.7rem;color:#A0A8C0;">📏 Distance</div>
+              <div style="font-size:.95rem;font-weight:700;color:#fff;" id="mapDistVal">--</div>
+            </div>
+            <div style="width:1px;height:28px;background:#1E3560;"></div>
+            <div style="text-align:center;">
+              <div style="font-size:.7rem;color:#A0A8C0;">⏱️ Est. Time</div>
+              <div style="font-size:.95rem;font-weight:700;color:#fff;" id="mapTimeVal">--</div>
+            </div>
+            <div style="width:1px;height:28px;background:#1E3560;"></div>
+            <div style="text-align:center;">
+              <div style="font-size:.7rem;color:#A0A8C0;">💰 Fare</div>
+              <div style="font-size:.95rem;font-weight:700;color:#4F9CF9;" id="mapFareVal">--</div>
+            </div>
+          </div>
+          <div class="map-info">🗺️ Select pickup & drop to see route on map</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag" style="background:rgba(232,101,10,0.18);">How it Works</div>
+      <div class="sec-title" style="color:#fff;" data-en="Book in 3 Easy Steps" data-hi="3 आसान स्टेप्स में बुक करें">Book in 3 Easy Steps</div>
+      <div class="sec-sub" data-en="Book in 3 steps — Simple, Fast, Reliable." data-hi="तीन स्टेप्स में बुक करो — Simple, Fast, Reliable.">Book in 3 steps — Simple, Fast, Reliable.</div>
+    </div>
+    <div class="steps-grid">
+      <div class="step"><div class="step-num">01</div><div class="step-icon">📍</div><div class="step-title">Choose Location</div><div class="step-hindi" data-en="Choose Location" data-hi="जगह चुनें">Choose Location</div><div class="step-desc">Enter pickup & drop. Select district, block, and village or use GPS auto-detect.</div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-icon">🚜</div><div class="step-title">Pick Your Vehicle</div><div class="step-hindi" data-en="Pick Vehicle" data-hi="गाड़ी चुनें">Pick Vehicle</div><div class="step-desc">Choose from 7+ vehicle types. Schedule now or for later. Get instant fare estimate.</div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-icon">✅</div><div class="step-title">Confirm & Ride</div><div class="step-hindi" data-en="Confirm & Ride" data-hi="बुक करें और जाएं">Confirm & Ride</div><div class="step-desc">Login with OTP, confirm booking. Saarthi arrives, share OTP to start ride. Pay via UPI.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY VATSX -->
+<section style="background:var(--cream);padding:4rem 2.5rem;">
+  <div class="sec-inner">
+    <div class="why-inner">
+      <div>
+        <div class="sec-tag">Why VatsX</div>
+        <div class="sec-title">Built for Bihar's Real Needs</div>
+        <div class="sec-sub" data-en="We understand what rural India actually needs." data-hi="बिहार की असली जरूरत — We understand what rural India actually needs.">We understand what rural India actually needs.</div>
+        <div class="why-features">
+          <div class="wf"><div class="wf-icon">🌾</div><div><div class="wf-title">Farmer-First Platform</div><div class="wf-desc">Book tractors for harvesting, trucks for mandi — designed for Bihar's kisan community.</div></div></div>
+          <div class="wf"><div class="wf-icon">🏪</div><div><div class="wf-title">Small Business Support</div><div class="wf-desc">Tempo, truck, van on demand. Move goods without haggling. Fair transparent pricing.</div></div></div>
+          <div class="wf"><div class="wf-icon">📅</div><div><div class="wf-title">Schedule in Advance</div><div class="wf-desc">Book a tractor for tomorrow's harvest at 5 AM. Plan ahead, no last minute stress.</div></div></div>
+          <div class="wf"><div class="wf-icon">💰</div><div><div class="wf-title">Fair Transparent Pricing</div><div class="wf-desc">No hidden charges. Distance based pricing. Jo dikhega wahi bharoge.</div></div></div>
+        </div>
+      </div>
+      <div class="why-map-box">
+        <div class="bihar-title">🗺️ Launch Coverage — Samastipur</div>
+        <div class="bihar-launch">
+          <div class="launch-badge">🚀 Phase 1 Starting Blocks</div>
+          <div style="font-size:.72rem;color:#777;margin-bottom:.5rem;">Rosera, Singhia, Shivaji Nagar, Dalsinghsarai first</div>
+          <div class="cities-grid">
+            <div class="city-chip launch">Rosera</div>
+            <div class="city-chip launch">Singhia</div>
+            <div class="city-chip launch">Shivaji Nagar</div>
+            <div class="city-chip launch">Dalsinghsarai</div>
+            <div class="city-chip">Samastipur</div>
+            <div class="city-chip">Patori</div>
+            <div class="city-chip">Tajpur</div>
+            <div class="city-chip">Morwa</div>
+            <div class="city-chip">Ujiarpur</div>
+          </div>
+          <div class="launch-note">🟠 Orange = Launch | Gray = Coming soon</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="safety" id="safety">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">Safety First</div>
+      <div class="sec-title" data-en="Your Safety, Our Responsibility" data-hi="आपकी सुरक्षा, हमारी जिम्मेदारी" data-en="Your Safety, Our Responsibility" data-hi="आपकी सुरक्षा, हमारी जिम्मेदारी">Your Safety, Our Responsibility</div>
+      <div class="sec-sub" data-en="Every ride is safe, verified, and tracked." data-hi="आपकी सुरक्षा हमारी जिम्मेदारी — Every ride is safe, verified, and tracked.">Every ride is safe, verified, and tracked.</div>
+    </div>
+    <div class="safety-grid">
+      <div class="safety-card"><div class="sc-icon">✅</div><div class="sc-title">Verified Saarthis</div><div class="sc-desc">All Saarthis go through background check, license & vehicle verification before onboarding.</div></div>
+      <div class="safety-card"><div class="sc-icon">📍</div><div class="sc-title">Live GPS Tracking</div><div class="sc-desc">Track your ride in real-time. Share trip with family. Know exactly where your vehicle is.</div></div>
+      <div class="safety-card"><div class="sc-icon">🆘</div><div class="sc-title">Emergency SOS</div><div class="sc-desc">One tap SOS alerts emergency contacts and VatsX support team instantly with your location.</div></div>
+      <div class="safety-card"><div class="sc-icon">⭐</div><div class="sc-title">Rating & Reviews</div><div class="sc-desc">Rate every ride. Bad Saarthis are removed. Only top-rated Saarthis stay on the platform.</div></div>
+      <div class="safety-card"><div class="sc-icon">🔒</div><div class="sc-title">OTP Based Ride Start</div><div class="sc-desc">Saarthi enters your OTP to start ride. No OTP = No ride. Complete safety guaranteed.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">Reviews</div>
+      <div class="sec-title">What People Say</div>
+      <div class="sec-sub" data-en="Hear from our early users." data-hi="लोगों ने क्या कहा — Hear from our early users.">Hear from our early users.</div>
+    </div>
+    <div class="test-grid">
+      <div class="test-card"><div class="test-stars">★★★★★</div><div class="test-text">"Finally an app that understands farmers. Booking a tractor used to take hours. VatsX will change everything!"</div><div class="test-author"><div class="test-av">R</div><div><div class="test-name">Rajesh Yadav</div><div class="test-role">Farmer, Nalanda</div></div></div></div>
+      <div class="test-card"><div class="test-stars">★★★★★</div><div class="test-text">"Mere kapde ki dukaan ke liye tempo booking bahut mushkil tha. Ek app mein sab milega toh bahut aasaan hoga!"</div><div class="test-author"><div class="test-av">S</div><div><div class="test-name">Sunita Devi</div><div class="test-role">Cloth Merchant, Muzaffarpur</div></div></div></div>
+      <div class="test-card"><div class="test-stars">★★★★★</div><div class="test-text">"As a truck owner in Samastipur, I need more customers. VatsX gives me the platform to get consistent bookings!"</div><div class="test-author"><div class="test-av">M</div><div><div class="test-name">Mukesh Singh</div><div class="test-role">Truck Owner, Samastipur</div></div></div></div>
+    </div>
+    <div class="feedback-form-wrap">
+      <div class="fb-title">✍️ Apna Feedback Do</div>
+      <div class="stars-select" id="starSelect">
+        <button class="star-btn" onclick="setStar(1)">★</button>
+        <button class="star-btn" onclick="setStar(2)">★</button>
+        <button class="star-btn" onclick="setStar(3)">★</button>
+        <button class="star-btn" onclick="setStar(4)">★</button>
+        <button class="star-btn" onclick="setStar(5)">★</button>
+      </div>
+      <div class="fb-row">
+        <input class="fb-inp" type="text" placeholder="Name / नाम" id="fbName"/>
+        <input class="fb-inp" type="tel" placeholder="Mobile / मोबाइल" id="fbMobile"/>
+      </div>
+      <textarea class="fb-input" placeholder="Your feedback / आपकी राय..." id="fbText"></textarea>
+      <button class="fb-submit" onclick="submitFeedback()">Submit Feedback</button>
+    </div>
+  </div>
+</section>
+
+<!-- APP COMING SOON -->
+<section class="appdown">
+  <div class="sec-inner">
+    <div class="coming-badge">📱 Coming Soon</div>
+    <div class="sec-title" style="color:#fff;" data-en="App Coming Soon!" data-hi="ऐप जल्द आ रहा है!">App Coming Soon!</div>
+    <div class="sec-sub" data-en="Be the first to know when VatsX app launches." data-hi="ऐप जल्द आ रहा है! VatsX ऐप लॉन्च होने पर सबसे पहले जानें।">Be the first to know when VatsX app launches.</div>
+    <div class="app-btns">
+      <div class="app-btn"><div class="app-btn-icon">🍎</div><div><div class="app-btn-small">Coming soon on</div><div class="app-btn-store">App Store</div></div></div>
+      <div class="app-btn"><div class="app-btn-icon">🤖</div><div><div class="app-btn-small">Coming soon on</div><div class="app-btn-store">Google Play</div></div></div>
+    </div>
+    <div class="notify-form">
+      <input class="notify-inp" type="tel" placeholder="📱 Mobile number" id="notifyNum"/>
+      <button class="notify-btn" onclick="submitNotify()">Notify Me</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="sec-inner">
+    <div class="about-grid">
+      <div>
+        <div class="sec-tag">About VatsX</div>
+        <div class="sec-title">Bihar's Own Platform</div>
+        <div class="mv-cards">
+          <div class="mv-card"><div class="mv-icon">🎯</div><div class="mv-title">Our Mission</div><div class="mv-desc">To make vehicle booking accessible to every farmer, trader, and traveller in Bihar — simple, fair, and reliable.</div></div>
+          <div class="mv-card"><div class="mv-icon">🔭</div><div class="mv-title">Our Vision</div><div class="mv-desc">To become India's largest rural vehicle platform, starting from Bihar and expanding across all states.</div></div>
+        </div>
+        <div class="numbers-row">
+          <div class="num-card"><div class="num-val">7+</div><div class="num-label">Vehicle Types</div></div>
+          <div class="num-card"><div class="num-val">20</div><div class="num-label">Blocks</div></div>
+          <div class="num-card"><div class="num-val">1200+</div><div class="num-label">Villages</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="team-section">
+          <div class="team-title">Meet the Founder</div>
+          <div class="team-card">
+            <div class="team-av">OV</div>
+            <div>
+              <div class="team-name">Om Vats</div>
+              <div class="team-role">Founder & CEO, VatsX</div>
+              <div style="font-size:.72rem;color:#A0A8C0;margin-top:.2rem;">Building Bihar's first all-vehicle platform 🚀</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="sec-inner">
+    <div class="contact-inner">
+      <div>
+        <div class="sec-tag">Contact Us</div>
+        <div class="sec-title">Get in Touch</div>
+        <div class="sec-sub" data-en="We're here to help anytime." data-hi="हमसे बात करें — हम हमेशा मदद के लिए यहाँ हैं।">We're here to help anytime.</div>
+        <div class="contact-info">
+          <div class="ci-item"><div class="ci-icon">📍</div><span>Samastipur, Bihar, India</span></div>
+          <div class="ci-item"><div class="ci-icon">📞</div><span>+91 XXXXX XXXXX</span></div>
+          <div class="ci-item"><div class="ci-icon">📧</div><span>hello@vatsx.in</span></div>
+          <div class="ci-item"><div class="ci-icon">⏰</div><span>24/7 Support Available</span></div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="cf-title">💬 Send a Message</div>
+        <input class="cf-inp" type="text" placeholder="Your Name / आपका नाम" id="cfName"/>
+        <input class="cf-inp" type="tel" placeholder="Mobile Number / मोबाइल" id="cfMobile"/>
+        <select class="cf-sel" id="cfType">
+          <option value="">I am a... / मैं हूं</option>
+          <option>Customer / यात्री</option>
+          <option>Farmer / किसान</option>
+          <option>Business Owner / व्यापारी</option>
+          <option>Saarthi / Driver</option>
+          <option>Other / अन्य</option>
+        </select>
+        <textarea class="cf-ta" placeholder="Your message / आपका संदेश..." id="cfMsg"></textarea>
+        <button class="cf-submit" onclick="submitContact()">Send Message / संदेश भेजें</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAARTHI -->
+<section class="saarthi-section" id="saarthi">
+  <div class="saarthi-inner">
+    <div>
+      <div style="font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:#fff;line-height:1.2;margin-bottom:.5rem;">Join as Saarthi,<br/>Earn More Daily</div>
+      <div style="font-size:.95rem;color:rgba(255,255,255,0.7);margin-bottom:1.2rem;" data-en="Drive with VatsX, Earn More Every Day" data-hi="VatsX के साथ चलाएं, रोज ज्यादा कमाएं">Drive with VatsX, Earn More Every Day</div>
+      <div class="perk"><div class="perk-check">✓</div data-en="Zero registration fee — bilkul free" data-hi="Zero registration fee — बिल्कुल मुफ्त">Zero registration fee — bilkul free</div>
+      <div class="perk"><div class="perk-check">✓</div data-en="Flexible hours — aap ka schedule" data-hi="Flexible hours — आपका शेड्यूल">Flexible hours — aap ka schedule</div>
+      <div class="perk"><div class="perk-check">✓</div data-en="Instant UPI payment after every ride" data-hi="हर राइड के बाद तुरंत UPI भुगतान">Instant UPI payment after every ride</div>
+      <div class="perk"><div class="perk-check">✓</div data-en="Full support in Hindi + English" data-hi="हिंदी + English में पूरा सपोर्ट">Full support in Hindi + English</div>
+    </div>
+    <div class="saarthi-form">
+      <div class="sf-title">🚗 Saarthi Registration</div>
+      <input class="sf-inp" type="text" placeholder="Full Name / पूरा नाम" id="sName"/>
+      <input class="sf-inp" type="tel" placeholder="Mobile Number / मोबाइल" id="sMobile"/>
+      <input class="sf-inp" type="text" placeholder="District / जिला" id="sDistrict"/>
+      <input class="sf-inp" type="text" placeholder="Area / Village / क्षेत्र" id="sArea"/>
+      <select class="sf-sel" id="sShift">
+        <option value="">Shift / शिफ्ट</option>
+        <option>Morning (6AM-2PM)</option>
+        <option>Evening (2PM-10PM)</option>
+        <option>Night (10PM-6AM)</option>
+        <option>Flexible</option>
+      </select>
+      <input class="sf-inp" type="text" placeholder="Vehicle Type / गाड़ी का प्रकार" id="sVehicleType" list="vtList"/>
+      <datalist id="vtList">
+        <option value="Cab / Car"><option value="Tractor"><option value="Truck / Lorry"><option value="Auto Rickshaw"><option value="Tempo"><option value="Mini Van"><option value="Bus / Traveller">
+      </datalist>
+      <input class="sf-inp" type="text" placeholder="Vehicle Number / गाड़ी नंबर" id="sVehicleNum"/>
+      <input class="sf-inp" type="text" placeholder="Aadhaar Number (Optional)" id="sAadhaar"/>
+      <input class="sf-inp" type="text" placeholder="Driving License (Optional)" id="sLicense"/>
+      <input class="sf-inp" type="text" placeholder="UPI ID / Bank Account" id="sUPI"/>
+      <button class="sf-submit" onclick="submitSaarthi()">Register as Saarthi — Free</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span style="font-family:'Manrope','Arial Black',sans-serif;font-size:20px;font-weight:900;color:#fff;letter-spacing:-1.5px;">VATS</span><span style="font-family:'Manrope',Arial,sans-serif;font-size:20px;font-weight:200;color:#4F9CF9;">X</span>
+        <p>India's first all-vehicle booking platform. Built for farmers, traders, and everyday people of Bihar.</p>
+        <p class="hindi" data-en="Bihar's own all-vehicle booking platform." data-hi="बिहार का अपना ऑल-व्हीकल बुकिंग प्लेटफॉर्म।">Bihar's own all-vehicle booking platform.</p>
+        <div class="social-links">
+          <a class="social-btn" href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-btn" href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="social-btn" href="#" title="Twitter/X"><i class="fab fa-x-twitter"></i></a>
+          <a class="social-btn" href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a class="social-btn" href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#vehicles">Book a Ride</a></li>
+          <li><a href="#vehicles">Tractor Booking</a></li>
+          <li><a href="#vehicles">Freight / Truck</a></li>
+          <li><a href="#saarthi">Saarthi Bano</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="#contact">Help Center</a></li>
+          <li><a href="#safety">Safety</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 VatsX. All rights reserved. | Samastipur, Bihar, India</div>
+      <div class="footer-made">Made with <span>♥</span> for Bihar</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzhP3HxAeY8ty-mFMIRNMDR9VZg9WmSJoEadO6KUHfzK8hR_QSX4C2Wis7DmmI3HZsWmQ/exec";
+
+const locationData = {
+  "Samastipur": {
+    "Bibhutpur": ["Ajnaul","Az Rakbe Mustafapur Bhath","Bahlampur Khambhar","Balaha","Bariarpur","Bazidpur Bamaia","Belsandi Dih","Belsandi Tara","Bharpura","Bhuswar","Bibhutipur","Boria","Chak Habib","Chak Hoja","Chandsurari","Chora Tabhka","Damodarpur","Desri urf Sahjahanpur","Gangauli","Kalyanpur Bamola","Karakh","Kerai","Kishunpur Tabhka","Kodaria","Mahamadpur Shakra","Mahthi","Mahthi Tola Alampur","Mehsi","Monda","Mustafapur Bhath","Narhan","Patpara","Potilia","Purkhatimpur Pachhiari","Raghopur","Rupauli Khurd","Sakh Mohan","Samartha","Shahpur","Shahpur Patohi","Singhia Buzurg","Surauli","Tabhka Khas","Tabhka Pachhiari"],
+    "Bithan": ["Bajos Sarakat","Banbhaura","Barahi","Bardauni","Batardiha","Bela Chauri","Belahi","Belaun","Belsandi","Bhadas","Bhatgawan","Bhikhnaulia","Bhuindhar","Bithan","Chanauli","Chandauli","Chhechhani","Dhobauli","Ghasian","Halna","Jagmohra","Karachin","Katosi","Kaurahi","Khota Tilakpur","Khutauna","Kua","Lachhminia","Lad Kapasia","Malsar","Manarwa Khaira","Moraul","Murthua","Nirpa","Pachrukhi","Padri","Parkauli","Parsauni","Phuhia","Pipra","Pirautana","Purandaha","Pusaho","Sakhwa","Salaha","Salaha Chandan","Sihma","Sohma","Subhaul","Sukhasan","Tekbajpur","Telni","Tetrahi","Ubhaila","Ujan"],
+    "Dalsinghsarai": ["Ajnaul","Alampur Chak Sultan","Bahadurpur Armauli","Balo Chak","Bamaia Harlal","Basaria","Bazidpur Godo","Bhairopatti","Bhatgawan","Biswaspur","Boriawan","Bulakipur","Chak Bahauddin","Chak Biswas","Chak Daulat","Chak Murtaza","Chak Musa","Chaksah Mahamad urf Milki","Dalsinghsarai (NP)","Dhepura","Gauspur Inaet","Harsankarpur","Kamrawan","Keota","Khajautia","Khoksa","Konaila","Kusum Barhenda","Madhipur","Mahnaia","Mathurapur","Mukhtarpur Salkhani","Nagargawan","Nawada","Pagra","Panr","Purwaripatti","Raghubarpur","Rampur Jalalpur","Rampur Mahima","Rampur Pagra","Sahbajpur Mahnaia","Shahpur Pagra","Soera","Sultanpur Ghataho","Umar Chak"],
+    "Rosera": ["Ahira Kalyanpur","Arazichak That","Bataha","Bhajanpatti","Bharampur Jairam","Bharwari","Bhatandi","Bhatatar","Bhiraha","Bhoraha Bahera","Chak That","Chakki Dhab","Damodarpur","Dharampur Jairam","Harpur","Jadupatti","Jahangirpur","Jahangirpur Nankar","Jakhar","Jarahi","Khaira","Lalpur","Mahamadpur","Mahamadpur Alauddin urf Rohua","Mohiuddi Nagar","Mohwalipur","Motipur","Pabra","Pachgawan","Pitha Dobhi","Purkhatimpur","Ramnagar","Rasulpur Dharaha","Rasulpur Jalal Chak","Rasulpur Milki","Rosera (NP)","Sahiar","Sahiar Dih","Sapahua Basauli","Shahpur","Sonupur","Thahar Basarhia","Udaipur"],
+    "Shivaji Nagar": ["Akhtwara","Aura","Baghopur","Bahadurpur","Balaha","Balipur Parsuram","Banda","Bandhar Shiupur","Baraitha","Barh Kurwa","Basatpur Garibe","Bhataura","Bor","Boran","Chak Jari","Chhatauni","Chitaura","Dahiar","Dasaut","Dewanpur","Dharampur","Dumarkol","Dumra Mohan","Ghiwahi","Gonwara","Inamat","Jagdar","Jakhar","Kaji Dumra","Kalwara","Kankar","Karian","Katghara","Khanpur","Kharsam","Kolhanta","Kothia","Madhurapur","Maheshwara","Mahraila Dakhli","Mahsar","Meghaulia","Meghpatti","Nankar","Narsingha","Parsa","Parwana","Pokharbhinda","Punwa","Pura","Rahiar Kunchi","Rahthauli","Rajaur Rambhadarpur","Ramaul","Ranna","Sahru","Samarhati","Sarhila","Shahpur Chintaman","Shankarpur","Simrawan","Siripur","Siripur Tola Bhajrahia","Sirsia","Sisai Karian urf Birdaban","Sisai Karian urf Kalyanpur","Sisai Karian urf Sisai Goth","Sisai Raja","Uti Bariar"],
+    "Singhia": ["Agraul","Arazi Maguraha","Arazilachhminia","Arrahi","Bangarhata","Bari","Bastipatti Mahua urf Murli","Basudewa","Bela","Bharaia Nirpur","Bharson","Bhirar","Bishunpur Diha","Bishunpur Kewathar","Dhanaho","Dhenu Dih","Gijamania","Golea","Hardia","Harpur","Jahangirpur","Kabilashi","Kaina","Kankri","Karahi","Kundal","Lada","Lagma","Lulhaul","Mahekhaira","Mahra","Mamurpur","Mauan","Mohiuddinpur Jamua","Morwara","Pararia Bherhar","Parhat","Patail","Pato Bilahi","Phulahra","Rampur Bahor","Salepur","Singhia","Son Mani"],
+    "Samastipur": ["Samastipur City","Samastipur Nagar","Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bhadwar","Bishanpur","Chandauli","Chatapur","Desri","Dhobauli","Digha","Dumra","Gobindpur","Goriari","Hajipur","Harpur","Hasanpur","Hathiladh","Jagdishpur","Jamua","Kachchi","Kaithi","Kalyanpur","Kamalpur","Kamtaul","Karahi","Karmaul","Khaira","Khanpur","Lakhimpur","Laxmipur","Madhopur","Maheshpur","Mahnar","Manikapur"],
+    "Tajpur": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bhadwar","Bishanpur","Chandauli","Chatapur","Desri","Dhobauli","Digha","Dumra","Gobindpur","Goriari","Hajipur","Harpur","Hathiladh","Jagdishpur","Kachchi","Kaithi","Kalyanpur","Kamalpur","Kamtaul","Karahi","Tajpur"],
+    "Morwa": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bhadwar","Bishanpur","Chandauli","Desri","Dhobauli","Digha","Dumra","Gobindpur","Goriari","Hajipur","Harpur","Hasanpur","Hathiladh","Kamtaul","Morwa"],
+    "Patori": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bhadwar","Bishanpur","Chandauli","Desri","Dhobauli","Digha","Dumra","Gobindpur","Patori","Rampur","Rasulpur","Rupauli","Samastipur","Singhia","Tajpur","Ujiarpur","Warisnagar"],
+    "Pusa": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bhadwar","Bishanpur","Desri","Dhobauli","Digha","Dumra","Gobindpur","Pusa","Rampur","Rasulpur","Samastipur","Singhia","Tajpur","Ujiarpur"],
+    "Ujiarpur": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bishanpur","Chandauli","Desri","Dhobauli","Digha","Dumra","Gobindpur","Hajipur","Ujiarpur"],
+    "Warisnagar": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bhadwar","Bishanpur","Chandauli","Desri","Dhobauli","Digha","Dumra","Gobindpur","Hajipur","Harpur","Hasanpur","Hathiladh","Jagdishpur","Jamua","Kachchi","Kaithi","Kalyanpur","Kamalpur","Kamtaul","Karahi","Karmaul","Kartana","Khaira","Khanpur","Lakhimpur","Laxmipur","Madhopur","Maheshpur","Mahnar","Manikapur","Warisnagar"],
+    "Mohiuddinagar": ["Atariyahi","Babubarhi","Badharpur","Bahera","Bahiyar","Bajitpur","Balabhadrapur","Balia","Banauli","Bandhua","Bangaon","Baniyapur","Barahi","Barari","Basant","Basauli","Batardiha","Belsar","Bishanpur","Chandauli","Chatapur","Desri","Dhobauli","Digha","Dumra","Mohiuddinagar"],
+    "Hasanpur": ["Ahiyapur","Amarpur","Amnaur","Araria","Asanpur","Atari","Babhanpur","Baghaul","Bahadurpur","Bahiyar","Balabhadrapur","Balha","Banaul","Barahi","Bariarpur","Basauli","Belchi","Bhadwar","Bharatpur","Bharthua","Bhatgaon","Bishanpur","Chandpur","Chapra","Dakaul","Dhabaul","Dhanaha","Dharhara","Dhobauli","Dighra","Dumra","Fatehpur","Garhpur","Gobindpur","Harpur","Hasanpur","Hathiladh","Jagdishpur","Kachchi","Kaithi","Kalyanpur","Khaira","Khanpur","Lakhimpur","Maheshpur","Mahnar","Mathurapur","Mirzapur","Mohanpur","Murliganj","Nandpur","Nawada","Padri","Parsauni","Patepur","Pipra"],
+    "Kalyanpur": ["Adhaura","Agiaon","Ahiyapur","Alinagar","Amarpur","Amnaur","Andha","Araria","Asanpur","Atari","Babhanpur","Bagha","Baghaul","Bahadurpur","Bahiyar","Bairia","Balabhadrapur","Balha","Banaul","Barahi","Bariarpur","Basauli","Belchi","Belsar","Bhadwar","Bharatpur","Bharthua","Bhatgaon","Bhorha","Bishanpur","Brahampur","Chandpur","Chapra","Dakaul","Dhabaul","Dhanaha","Dharhara","Dhobauli","Dighra","Dumra","Fatehpur","Garhpur","Gobindpur","Goriari","Harpur","Hathiladh","Jagdishpur","Kalyanpur","Kamtaul","Khaira","Khanpur","Kodaria","Lakhimpur","Laxmipur","Madhopur","Maheshpur","Mahnar","Manikapur","Mathurapur","Mirzapur","Nandpur","Nawada","Padri","Parsauni","Patepur","Pipra","Rampur","Rasulpur","Rupauli","Samastipur","Sarairanjan","Singhia","Tajpur","Ujiarpur","Warisnagar"],
+    "Khanpur": ["Alinagar","Amarpur","Andha","Aurai","Babubarhi","Bahiyar","Barari","Basatpur","Chandpur","Dhangraha","Dighra","Garhpur","Gobindpur","Harpur","Hathiladh","Jagdishpur","Kamalpur","Karmaul","Khaira","Khanpur","Lakhmipur","Manpur","Mathurapur","Mirzapur","Murliganj","Nayanagar","Rampur","Rasulpur","Rupauli","Samastipur","Singhia","Tajpur","Ujiarpur"],
+    "Mohanpur": ["Alinagar","Amarpur","Andha","Babubarhi","Bahiyar","Barari","Chandpur","Dhangraha","Dighra","Garhpur","Gobindpur","Harpur","Jagdishpur","Khaira","Khanpur","Lakhmipur","Manpur","Mathurapur","Mirzapur","Mohanpur","Murliganj","Nayanagar","Rampur","Rasulpur","Rupauli","Samastipur","Singhia","Ujiarpur"],
+    "Sarairanjan": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bishanpur","Chandauli","Desri","Dhobauli","Digha","Dumra","Gobindpur","Goriari","Hajipur","Harpur","Hasanpur","Hathiladh","Sarairanjan"],
+    "Vidyapati Nagar": ["Babubarhi","Bahera","Balia","Banauli","Barahi","Basauli","Batardiha","Belsar","Bishanpur","Chandauli","Desri","Dhobauli","Digha","Dumra","Gobindpur","Goriari","Vidyapati Nagar"]
+  }
+};
+
+const fareRates = {
+  cab:{base:30,perKm:13,unit:'per km'},
+  tractor:{base:100,perKm:15,unit:'per km + work'},
+  truck:{base:200,perKm:22,unit:'per km'},
+  auto:{base:15,perKm:9,unit:'per km'},
+  van:{base:100,perKm:15,unit:'per km'},
+  tempo:{base:150,perKm:18,unit:'per km'},
+  bus:{base:500,perKm:25,unit:'per km'}
+};
+
+const extraOptsHTML = {
+  cab:`<div class="extra-opts"><div class="schedule-wrap"><select class="sel" id="scheduleSelect" onchange="handleSchedule(this)"><option value="now">Now / अभी</option><option value="later">Schedule Later</option></select></div><select class="sel"><option>1 Passenger</option><option>2 Passengers</option><option>3 Passengers</option><option>4 Passengers</option></select></div><div class="extra-opts"><select class="sel"><option>For Myself</option><option>For Someone Else</option></select><select class="sel"><option>Any Cab</option><option>Sedan</option><option>SUV</option></select></div>`,
+  tractor:`<div class="extra-opts"><div class="schedule-wrap"><select class="sel" id="scheduleSelect" onchange="handleSchedule(this)"><option value="now">Now / अभी</option><option value="later">Schedule Later</option></select></div><select class="sel"><option>Ride/राइड</option><option>Hire/काम के लिए</option></select></div><div class="extra-opts"><select class="sel"><option>Tractor Type</option><option>Mini Tractor</option><option>Rotavator</option><option>Harvester</option></select><select class="sel"><option>Work Type</option><option>Harvesting/कटाई</option><option>Jutai/जुताई</option><option>Maal Dhona</option></select></div>`,
+  truck:`<div class="extra-opts"><div class="schedule-wrap"><select class="sel" id="scheduleSelect" onchange="handleSchedule(this)"><option value="now">Now / अभी</option><option value="later">Schedule Later</option></select></div><select class="sel"><option>Truck Type</option><option>Mini Truck</option><option>Large Truck</option><option>Pickup Truck</option></select></div><div class="extra-opts"><select class="sel"><option>Maal Type</option><option>Anaj/Fasal</option><option>Building Material</option><option>General Goods</option></select><select class="sel"><option>Weight</option><option>0-500 kg</option><option>500-1000 kg</option><option>1000-2000 kg</option><option>2000 kg+</option></select></div>`,
+  auto:`<div class="extra-opts"><div class="schedule-wrap"><select class="sel" id="scheduleSelect" onchange="handleSchedule(this)"><option value="now">Now / अभी</option><option value="later">Schedule Later</option></select></div><select class="sel"><option>1 Passenger</option><option>2 Passengers</option><option>3 Passengers</option></select></div><div class="extra-opts"><select class="sel"><option>Auto Type</option><option>Auto Rickshaw</option><option>E-Rickshaw</option><option>Diesel Auto</option></select></div>`,
+  van:`<div class="extra-opts"><div class="schedule-wrap"><select class="sel" id="scheduleSelect" onchange="handleSchedule(this)"><option value="now">Now / अभी</option><option value="later">Schedule Later</option></select></div><select class="sel"><option>Purpose</option><option>Group Travel</option><option>Maal Transport</option><option>Family Trip</option></select></div><div class="extra-opts"><select class="sel"><option>Passengers</option><option>1-4</option><option>5-8</option><option>9-12</option></select><select class="sel"><option>Van Type</option><option>Mini Van</option><option>Tempo Traveller</option><option>Force Van</option></select></div>`,
+  tempo:`<div class="extra-opts"><div class="schedule-wrap"><select class="sel" id="scheduleSelect" onchange="handleSchedule(this)"><option value="now">Now / अभी</option><option value="later">Schedule Later</option></select></div><select class="sel"><option>Tempo Type</option><option>Chhota Hathi</option><option>Tata Ace</option><option>3-Wheeler</option></select></div><div class="extra-opts"><select class="sel"><option>Maal Type</option><option>Sabzi/Fruits</option><option>Dukaan Samaan</option><option>General</option></select><select class="sel"><option>Weight</option><option>0-200 kg</option><option>200-500 kg</option><option>500-1000 kg</option></select></div>`,
+  bus:`<div class="extra-opts"><div class="schedule-wrap"><select class="sel" id="scheduleSelect" onchange="handleSchedule(this)"><option value="now">Now / अभी</option><option value="later">Schedule Later</option></select></div><select class="sel"><option>Purpose</option><option>Shaadi/Function</option><option>School Trip</option><option>Tirth Yatra</option><option>Corporate</option></select></div><div class="extra-opts"><select class="sel"><option>Passengers</option><option>10-20</option><option>20-30</option><option>30-40</option><option>40+</option></select><select class="sel"><option>Duration</option><option>Half Day</option><option>Full Day</option><option>Multiple Days</option></select></div>`
+};
+
+// Village coordinates (approximate centers for Samastipur area)
+const villageCoords = {
+  'Rosera (NP)':[25.8728,85.9847],'Singhia':[25.8456,85.9234],'Dalsinghsarai (NP)':[25.6789,85.8345],
+  'Samastipur City':[25.8701,85.7761],'Samastipur Nagar':[25.8701,85.7761],
+  'default_samastipur':[25.8701,85.7761]
+};
+
+let currentVehicle = 'cab';
+let selectedStars = 0;
+let currentLang = 'en';
+let currentSlide = 0;
+let map = null;
+let puMarker = null, drMarker = null, routeLine = null;
+let puCoords = null, drCoords = null;
+let isLoggedIn = false;
+
+// Location state
+let locState = {
+  pu: {district:'', block:'', village:'', ward:'', display:'', coords:null},
+  dr: {district:'', block:'', village:'', ward:'', display:'', coords:null}
+};
+
+// Init map
+function initMap() {
+  if(map) return;
+  map = L.map('bookingMap', {zoomControl:true, tap:true, dragging:true}).setView([25.8701, 85.7761], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'© OpenStreetMap contributors',
+    maxZoom:18
+  }).addTo(map);
+}
+
+function getVillageCoords(village, block) {
+  if(villageCoords[village]) return villageCoords[village];
+  const blockCoords = {
+    'Rosera':[25.8728,85.9847],'Singhia':[25.8456,85.9234],'Dalsinghsarai':[25.6789,85.8345],
+    'Shivaji Nagar':[25.9123,85.8456],'Samastipur':[25.8701,85.7761],'Bibhutpur':[25.9234,85.8901],
+    'Bithan':[25.7890,85.9456],'Tajpur':[25.9456,85.8123],'Morwa':[25.8234,86.0123],
+    'Patori':[25.7567,85.9012],'Pusa':[25.9789,85.7890],'Ujiarpur':[25.8456,85.7234],
+    'Warisnagar':[25.7234,85.8567],'Mohiuddinagar':[25.8901,85.8901],'Hasanpur':[25.7456,85.9678],
+    'Kalyanpur':[25.9012,85.7012],'Khanpur':[25.8123,85.9345],'Mohanpur':[25.7890,85.8012],
+    'Sarairanjan':[25.8567,86.0456],'Vidyapati Nagar':[25.9345,85.9012]
+  };
+  if(block && blockCoords[block]) {
+    const bc = blockCoords[block];
+    return [bc[0] + (Math.random()-0.5)*0.05, bc[1] + (Math.random()-0.5)*0.05];
+  }
+  return [25.8701 + (Math.random()-0.5)*0.2, 85.7761 + (Math.random()-0.5)*0.2];
+}
+
+function updateMap() {
+  if(!map) initMap();
+  const puOrange = L.divIcon({html:'<div style="background:#E8650A;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',iconSize:[14,14],iconAnchor:[7,7]});
+  const drGreen = L.divIcon({html:'<div style="background:#1a7a1a;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',iconSize:[14,14],iconAnchor:[7,7]});
+
+  if(puMarker) map.removeLayer(puMarker);
+  if(drMarker) map.removeLayer(drMarker);
+  if(routeLine) map.removeLayer(routeLine);
+
+  if(locState.pu.coords) {
+    puMarker = L.marker(locState.pu.coords, {icon:puOrange}).addTo(map).bindPopup('📍 Pickup: ' + locState.pu.village);
+  }
+  if(locState.dr.coords) {
+    drMarker = L.marker(locState.dr.coords, {icon:drGreen}).addTo(map).bindPopup('🏁 Drop: ' + locState.dr.village);
+  }
+  if(locState.pu.coords && locState.dr.coords) {
+    routeLine = L.polyline([locState.pu.coords, locState.dr.coords], {color:'#E8650A', weight:3, opacity:0.7, dashArray:'8,4'}).addTo(map);
+    const bounds = L.latLngBounds([locState.pu.coords, locState.dr.coords]);
+    map.fitBounds(bounds, {padding:[40,40]});
+    calcDistanceFare();
+  } else if(locState.pu.coords) {
+    map.setView(locState.pu.coords, 13);
+  } else if(locState.dr.coords) {
+    map.setView(locState.dr.coords, 13);
+  }
+}
+
+function calcDistanceFare() {
+  if(!locState.pu.coords || !locState.dr.coords) {
+    document.getElementById('distFareBox').classList.remove('show');
+    return;
+  }
+  const R = 6371;
+  const dLat = (locState.dr.coords[0]-locState.pu.coords[0]) * Math.PI/180;
+  const dLon = (locState.dr.coords[1]-locState.pu.coords[1]) * Math.PI/180;
+  const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(locState.pu.coords[0]*Math.PI/180)*Math.cos(locState.dr.coords[0]*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  const dist = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const distKm = Math.max(1, Math.round(dist * 10) / 10);
+  const distDisplay = distKm < 1 ? Math.round(distKm*1000) + ' m' : distKm.toFixed(1) + ' km';
+  const timeMin = Math.round(distKm * 3.5);
+  const timeDisplay = timeMin < 60 ? timeMin + ' min' : Math.floor(timeMin/60) + 'h ' + (timeMin%60) + 'min';
+
+  const rate = fareRates[currentVehicle];
+  const fare = Math.round(rate.base + (rate.perKm * distKm));
+  const fareMax = Math.round(fare * 1.15);
+
+  document.getElementById('distVal').textContent = distDisplay;
+  document.getElementById('timeVal').textContent = timeDisplay;
+  document.getElementById('fareAmt').textContent = '₹' + fare + ' – ₹' + fareMax;
+  document.getElementById('fareBreakdown').textContent = 'Base ₹' + rate.base + ' + ₹' + rate.perKm + '/km × ' + distKm.toFixed(1) + 'km';
+  document.getElementById('distFareBox').classList.add('show');
+  // Update map info bar
+  const mapBar = document.getElementById('mapInfoBar');
+  if(mapBar) {
+    mapBar.style.display = 'flex';
+    document.getElementById('mapDistVal').textContent = distDisplay;
+    document.getElementById('mapTimeVal').textContent = timeDisplay;
+    document.getElementById('mapFareVal').textContent = '₹' + fare;
+  }
+}
+
+function doneLocation(pfx) {
+  document.getElementById(pfx + 'Drop').classList.remove('open');
+  document.querySelectorAll('.loc-field').forEach(f => f.classList.remove('active'));
+  updateMap();
+  checkBothLocations();
+}
+
+function checkBothLocations() {
+  const puSet = locState.pu.display || locState.pu.village;
+  const drSet = locState.dr.display || locState.dr.village;
+  const fareBox = document.getElementById('distFareBox');
+  // Update map whenever location changes
+  if(puSet || drSet) updateMap();
+  if(puSet && drSet && isLoggedIn) {
+    if(fareBox) fareBox.style.display = 'block';
+    calcDistanceFare();
+  } else if(puSet && drSet && !isLoggedIn) {
+    // Show map but prompt login for fare
+    if(fareBox) fareBox.style.display = 'none';
+    calcDistanceFare(); // Still calc for map info bar
+  } else {
+    if(fareBox) fareBox.style.display = 'none';
+    const mapBar = document.getElementById('mapInfoBar');
+    if(mapBar) mapBar.style.display = 'none';
+  }
+}
+
+function toggleDrop(pfx) {
+  const drop = document.getElementById(pfx + 'Drop');
+  const isOpen = drop.classList.contains('open');
+  // Close all dropdowns & remove active from all fields
+  document.querySelectorAll('.loc-dropdown').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.loc-field').forEach(f => f.classList.remove('active'));
+  // If was closed, open it & activate field
+  if(!isOpen) {
+    drop.classList.add('open');
+    const field = document.getElementById(pfx + 'Field') || drop.closest('.loc-field');
+    if(field) field.classList.add('active');
+    if(!map) setTimeout(initMap, 100);
+  }
+}
+
+document.addEventListener('click', function(e) {
+  if(!e.target.closest('.loc-field')) {
+    document.querySelectorAll('.loc-dropdown').forEach(d => d.classList.remove('open'));
+  }
+});
+
+function loadBlocks(pfx) {
+  const dist = document.getElementById(pfx+'-district').value;
+  const blkSel = document.getElementById(pfx+'-block');
+  const vilSel = document.getElementById(pfx+'-village');
+  blkSel.innerHTML = '<option value="">Block / प्रखंड</option>';
+  vilSel.innerHTML = '<option value="">Village / गाँव</option><option value="__custom__">✏️ Khud likho</option>';
+  blkSel.disabled = true; vilSel.disabled = true;
+  locState[pfx].district = dist;
+  if(dist && locationData[dist]) {
+    Object.keys(locationData[dist]).sort().forEach(b => blkSel.innerHTML += `<option value="${b}">${b}</option>`);
+    blkSel.disabled = false;
+  }
+}
+
+function loadVillages(pfx) {
+  const dist = document.getElementById(pfx+'-district').value;
+  const blk = document.getElementById(pfx+'-block').value;
+  const vilSel = document.getElementById(pfx+'-village');
+  vilSel.innerHTML = '<option value="">Village / गाँव</option><option value="__custom__">✏️ Khud likho</option>';
+  vilSel.disabled = true;
+  locState[pfx].block = blk;
+  if(dist && blk && locationData[dist][blk]) {
+    locationData[dist][blk].sort().forEach(v => vilSel.innerHTML += `<option value="${v}">${v}</option>`);
+    vilSel.disabled = false;
+    vilSel.style.opacity = '1';
+    vilSel.style.pointerEvents = 'auto';
+    vilSel.disabled = false;
+  }
+}
+
+function villageChange(pfx) {
+  const vil = document.getElementById(pfx+'-village').value;
+  const customInp = document.getElementById(pfx+'-custom');
+  customInp.style.display = vil === '__custom__' ? 'block' : 'none';
+  if(vil !== '__custom__') {
+    locState[pfx].village = vil;
+    const blk = document.getElementById(pfx+'-block').value;
+    locState[pfx].coords = vil ? getVillageCoords(vil, blk) : null;
+    updateLocDisplay(pfx);
+    updateMap();
+  }
+}
+
+function updateLocDisplay(pfx) {
+  const vilEl = document.getElementById(pfx+'-village');
+  const customInp = document.getElementById(pfx+'-custom');
+  const blk = document.getElementById(pfx+'-block').value;
+  const dist = document.getElementById(pfx+'-district').value;
+  const ward = document.getElementById(pfx+'-ward') ? document.getElementById(pfx+'-ward').value : '';
+  const vil = vilEl ? vilEl.value : '';
+  let finalVil = vil === '__custom__' ? (customInp ? customInp.value : '') : vil;
+  locState[pfx].village = finalVil;
+  locState[pfx].block = blk;
+  locState[pfx].district = dist;
+  if(finalVil) {
+    let txt = finalVil;
+    if(blk) txt += ', ' + blk;
+    if(ward) txt += ' (Ward ' + ward + ')';
+    locState[pfx].display = txt;
+    const icon = pfx === 'pu' ? '📍' : '🏁';
+    document.getElementById(pfx+'Display').innerHTML = '<span class="loc-value">' + icon + ' ' + txt + '</span>';
+    document.getElementById(pfx+'Btn').classList.add('filled');
+  } else if(blk) {
+    locState[pfx].display = dist + ', ' + blk;
+    document.getElementById(pfx+'Display').innerHTML = '<span class="loc-value" style="color:#A0A8C0;">📍 ' + dist + ', ' + blk + '</span>';
+  } else if(dist) {
+    document.getElementById(pfx+'Display').innerHTML = '<span class="loc-value" style="color:#A0A8C0;">📍 ' + dist + '</span>';
+  } else {
+    locState[pfx].display = '';
+    const placeholder = pfx==='pu' ? 'Select pickup location / लेने की जगह चुनें' : 'Select drop location / छोड़ने की जगह';
+    document.getElementById(pfx+'Display').innerHTML = '<span class="loc-placeholder">' + placeholder + '</span>';
+    document.getElementById(pfx+'Btn').classList.remove('filled');
+  }
+  checkBothLocations();
+}
+
+function useGPS(pfx) {
+  const btn = event.target;
+  btn.textContent = '⏳ Detecting...';
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const coords = [pos.coords.latitude, pos.coords.longitude];
+      locState[pfx].coords = coords;
+      locState[pfx].village = 'Current Location';
+      const display = document.getElementById(pfx+'Display');
+      display.innerHTML = '<span class="loc-value">📡 Current Location</span>';
+      document.getElementById(pfx+'Btn').classList.add('filled');
+      document.getElementById(pfx+'Drop').classList.remove('open');
+      btn.textContent = '✅ Location detected!';
+      setTimeout(() => { btn.textContent = '📡 Current Location / वर्तमान स्थान'; }, 2000);
+      updateMap();
+    }, () => {
+      btn.textContent = '❌ Permission denied';
+      setTimeout(() => { btn.textContent = '📡 Current Location / वर्तमान स्थान'; }, 2000);
+    });
+  }
+}
+
+function selectVehicle(el, type) {
+  document.querySelectorAll('.vc').forEach(v => v.classList.remove('active'));
+  el.classList.add('active');
+  currentVehicle = type;
+  document.getElementById('extraOpts').innerHTML = extraOptsHTML[type] || '';
+  calcDistanceFare();
+}
+
+function bookRide() {
+  if(!isLoggedIn) { openModal(); return; }
+  if(!locState.pu.display || !locState.dr.display) { alert('Please select pickup and drop locations first!'); return; }
+  alert('✅ Booking confirmed! Saarthi will be assigned shortly.');
+}
+
+// Manual location update
+const popularCoords = {"Samastipur Railway Station": [25.8748, 85.7797], "Rosera Railway Station": [25.9721, 85.9891], "Dalsinghsarai Railway Station": [25.6699, 85.8394], "Mohiuddinagar Railway Station": [25.7891, 85.6543], "Singhia Railway Station": [25.9234, 85.9123], "Pusa Agricultural Institute": [25.9834, 85.6789], "Samastipur Bus Stand": [25.8765, 85.7812], "Samastipur Sadar Hospital": [25.8756, 85.7834]};
+
+function selectPopular(pfx, name, area) {
+  const drop = document.getElementById(pfx + 'Drop');
+  drop.querySelectorAll('.pop-chip').forEach(c => c.classList.remove('selected'));
+  // Mark clicked chip
+  if(event && event.target) event.target.classList.add('selected');
+  
+  locState[pfx].village = name;
+  locState[pfx].display = name;
+  const coords = popularCoords[name];
+  if(coords) locState[pfx].coords = coords;
+  
+  const icon = pfx === 'pu' ? '📍' : '🏁';
+  document.getElementById(pfx+'Display').innerHTML = '<span class="loc-value">' + icon + ' ' + name + '</span>';
+  document.getElementById(pfx+'Btn').classList.add('filled');
+  
+  // Auto close after selection
+  setTimeout(() => {
+    document.getElementById(pfx+'Drop').classList.remove('open');
+    document.querySelectorAll('.loc-field').forEach(f => f.classList.remove('active'));
+    updateMap();
+    checkBothLocations();
+  }, 300);
+}
+
+function manualLocUpdate(pfx) {
+  const val = document.getElementById(pfx+'-manual').value;
+  if(!val.trim()) return;
+  locState[pfx].village = val;
+  locState[pfx].display = val;
+  locState[pfx].coords = null;
+  const icon = pfx === 'pu' ? '📍' : '🏁';
+  document.getElementById(pfx+'Display').innerHTML = `<span class="loc-value">${icon} ${val} <span style="font-size:.7rem;color:#A0A8C0;">(manual)</span></span>`;
+  document.getElementById(pfx+'Btn').classList.add('filled');
+  calcDistanceFare();
+}
+
+// Schedule Later — open calendar
+function handleScheduleMain(sel) {
+  if(sel.value === 'later') {
+    openCalendar();
+  } else {
+    selectedSchedule = null;
+    const info = document.getElementById('scheduleInfoMain');
+    if(info) { info.style.display = 'none'; info.textContent = ''; }
+  }
+}
+
+function handleSchedule(sel) {
+  if(sel.value === 'later') {
+    openCalendar();
+  } else {
+    selectedSchedule = null;
+    const info = document.getElementById('scheduleInfo');
+    if(info) info.remove();
+  }
+}
+
+// ===== CALENDAR =====
+let calYear, calMonth, selectedCalDate = null, selectedCalTime = null, selectedSchedule = null;
+
+function openCalendar() {
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  renderCalendar();
+  document.getElementById('calendarModal').classList.add('show');
+}
+
+function closeCalendar() {
+  document.getElementById('calendarModal').classList.remove('show');
+  const sel = document.getElementById('scheduleSelect');
+  if(sel && !selectedSchedule) sel.value = 'now';
+}
+
+function renderCalendar() {
+  const now = new Date();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calMonthYear').textContent = `${monthNames[calMonth]} ${calYear}`;
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  let html = '';
+  for(let i=0;i<firstDay;i++) html += `<div class="cal-day cal-empty"></div>`;
+  for(let d=1;d<=daysInMonth;d++) {
+    const thisDate = new Date(calYear, calMonth, d);
+    const isPast = thisDate < today;
+    const isToday = thisDate.getTime() === today.getTime();
+    const isSelected = selectedCalDate && selectedCalDate.getDate()===d && selectedCalDate.getMonth()===calMonth && selectedCalDate.getFullYear()===calYear;
+    let cls = 'cal-day';
+    if(isPast) cls += ' cal-disabled';
+    else if(isSelected) cls += ' cal-selected';
+    else if(isToday) cls += ' cal-today';
+    const onclick = isPast ? '' : `onclick="selectCalDay(${d})"`;
+    html += `<div class="${cls}" ${onclick}>${d}</div>`;
+  }
+  document.getElementById('calDays').innerHTML = html;
+}
+
+function selectCalDay(d) {
+  selectedCalDate = new Date(calYear, calMonth, d);
+  selectedCalTime = null;
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('timePicker').style.display = 'block';
+  document.getElementById('selectedDateTimeInfo').style.display = 'none';
+  renderCalendar();
+}
+
+function prevMonth() {
+  const now = new Date();
+  if(calYear === now.getFullYear() && calMonth === now.getMonth()) return;
+  calMonth--;
+  if(calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function nextMonth() {
+  calMonth++;
+  if(calMonth > 11) { calMonth = 0; calYear++; }
+  renderCalendar();
+}
+
+function selectTime(btn, timeRange) {
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedCalTime = timeRange;
+  showSelectedInfo();
+}
+
+function selectCustomTime(inp) {
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  selectedCalTime = inp.value;
+  showSelectedInfo();
+}
+
+function showSelectedInfo() {
+  if(!selectedCalDate || !selectedCalTime) return;
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dateStr = `${days[selectedCalDate.getDay()]}, ${selectedCalDate.getDate()} ${months[selectedCalDate.getMonth()]} ${selectedCalDate.getFullYear()}`;
+  const info = document.getElementById('selectedDateTimeInfo');
+  info.innerHTML = `📅 <strong>${dateStr}</strong> at <strong>${selectedCalTime}</strong>`;
+  info.style.display = 'block';
+}
+
+function confirmSchedule() {
+  if(!selectedCalDate) { alert('Please select a date'); return; }
+  if(!selectedCalTime) { alert('Please select a time'); return; }
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dateStr = `${days[selectedCalDate.getDay()]} ${selectedCalDate.getDate()} ${months[selectedCalDate.getMonth()]}`;
+  selectedSchedule = `${dateStr} at ${selectedCalTime}`;
+  document.getElementById('calendarModal').classList.remove('show');
+  // Update main schedule display
+  const mainInfo = document.getElementById('scheduleInfoMain');
+  if(mainInfo) {
+    mainInfo.style.display = 'block';
+    mainInfo.textContent = '📅 ' + (selectedSchedule ? selectedSchedule.date + ' — ' + selectedSchedule.time : '');
+  }
+  const mainSel = document.getElementById('scheduleSelectMain');
+  if(mainSel) mainSel.value = 'later';
+  const existingInfo = document.getElementById('scheduleInfo');
+  if(existingInfo) existingInfo.remove();
+  const infoDiv = document.createElement('div');
+  infoDiv.id = 'scheduleInfo';
+  infoDiv.style.cssText = 'background:rgba(232,101,10,0.08);border:1px solid rgba(232,101,10,0.25);border-radius:8px;padding:.5rem .8rem;font-size:.8rem;color:var(--charcoal);margin-bottom:.7rem;';
+  infoDiv.innerHTML = `📅 Scheduled: <strong style="color:var(--saffron);">${selectedSchedule}</strong> <span onclick="clearSchedule()" style="cursor:pointer;color:#e00;margin-left:.5rem;font-size:.75rem;">✕ Remove</span>`;
+  const sched = document.getElementById('scheduleSelect');
+  sched.parentNode.parentNode.insertAdjacentElement('afterend', infoDiv);
+}
+
+function clearSchedule() {
+  selectedSchedule = null;
+  const info = document.getElementById('scheduleInfo');
+  if(info) info.remove();
+  const sel = document.getElementById('scheduleSelect');
+  if(sel) sel.value = 'now';
+}
+
+function openModal() {
+  document.getElementById('loginModal').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('loginModal').classList.remove('show');
+  document.getElementById('phoneStep').style.display = 'block';
+  document.getElementById('otpStep').style.display = 'none';
+  document.getElementById('modalTitle').textContent = 'Welcome!';
+}
+function sendOTP() {
+  const phone = document.getElementById('phoneInput').value.trim();
+  if(phone.length < 10) { alert('Sahi 10 digit mobile number daalo'); return; }
+  const fullPhone = '+91' + phone;
+
+  const btn = document.querySelector('#phoneStep .modal-btn');
+  btn.textContent = 'Bhej raha hai...';
+  btn.disabled = true;
+
+  window.setupRecaptcha();
+  window.signInWithPhoneNumber(window.firebaseAuth, fullPhone, window.recaptchaVerifier)
+    .then((result) => {
+      window.confirmationResult = result;
+      document.getElementById('sentTo').textContent = '+91 ' + phone;
+      document.getElementById('phoneStep').style.display = 'none';
+      document.getElementById('otpStep').style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'OTP Verify Karo';
+      btn.textContent = 'Send OTP / OTP भेजें';
+      btn.disabled = false;
+    })
+    .catch((error) => {
+      console.error(error);
+      btn.textContent = 'Send OTP / OTP भेजें';
+      btn.disabled = false;
+      if(error.code === 'auth/too-many-requests') {
+        alert('Bahut zyada requests! Thodi der baad try karo.');
+      } else if(error.code === 'auth/invalid-phone-number') {
+        alert('Mobile number sahi nahi hai!');
+      } else {
+        alert('OTP bhejne mein problem hui. Dobara try karo.');
+      }
+      if(window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
+      }
+    });
+}
+function otpNext(inp, idx) {
+  if(inp.value.length === 1 && idx < 5) document.querySelectorAll('.otp-inp')[idx+1].focus();
+}
+function verifyOTP() {
+  const otp = Array.from(document.querySelectorAll('.otp-inp')).map(i => i.value).join('');
+  if(otp.length < 6) { alert('Poora OTP daalo'); return; }
+
+  if(!window.confirmationResult) { alert('Pehle OTP bhejo!'); return; }
+
+  const btn = document.querySelector('#otpStep .modal-btn');
+  btn.textContent = 'Verify ho raha hai...';
+  btn.disabled = true;
+
+  window.confirmationResult.confirm(otp)
+    .then((result) => {
+      isLoggedIn = true;
+      closeModal();
+      const loginBtn = document.querySelector('.btn-login');
+      loginBtn.textContent = '✅ Login';
+      loginBtn.style.color = '#4F9CF9';
+      loginBtn.style.borderColor = '#4F9CF9';
+      checkBothLocations();
+      btn.textContent = 'Verify & Continue';
+      btn.disabled = false;
+    })
+    .catch((error) => {
+      btn.textContent = 'Verify & Continue';
+      btn.disabled = false;
+      if(error.code === 'auth/invalid-verification-code') {
+        alert('OTP galat hai! Dobara check karo.');
+      } else {
+        alert('Verification fail hua. Dobara try karo.');
+      }
+    });
+}
+function resendOTP() {
+  document.getElementById('phoneStep').style.display = 'block';
+  document.getElementById('otpStep').style.display = 'none';
+  document.getElementById('modalTitle').textContent = 'Welcome!';
+  document.querySelectorAll('.otp-inp').forEach(i => i.value = '');
+  if(window.recaptchaVerifier) {
+    window.recaptchaVerifier.clear();
+    window.recaptchaVerifier = null;
+  }
+}
+
+function setStar(n) {
+  selectedStars = n;
+  document.querySelectorAll('.star-btn').forEach((b,i) => b.classList.toggle('sel', i < n));
+}
+
+function submitFeedback() {
+  const name = document.getElementById('fbName').value;
+  const text = document.getElementById('fbText').value;
+  if(!name || !text) { alert('Please fill name and feedback'); return; }
+  fetch(SHEET_URL, {method:'POST', body: JSON.stringify({name, mobile: document.getElementById('fbMobile').value, stars: selectedStars, feedback: text, type: 'feedback', timestamp: new Date().toISOString()})})
+    .then(() => alert('✅ Feedback submitted! Shukriya!')).catch(() => alert('✅ Feedback submitted!'));
+  document.getElementById('fbName').value = '';
+  document.getElementById('fbMobile').value = '';
+  document.getElementById('fbText').value = '';
+  setStar(0);
+}
+
+function submitContact() {
+  const name = document.getElementById('cfName').value;
+  const mobile = document.getElementById('cfMobile').value;
+  const msg = document.getElementById('cfMsg').value;
+  if(!name || !mobile || !msg) { alert('Please fill all required fields'); return; }
+  fetch(SHEET_URL, {method:'POST', body: JSON.stringify({name, mobile, userType: document.getElementById('cfType').value, message: msg, type: 'contact', timestamp: new Date().toISOString()})})
+    .then(() => alert('✅ Message sent! We will contact you soon.')).catch(() => alert('✅ Message sent!'));
+  document.getElementById('cfName').value = '';
+  document.getElementById('cfMobile').value = '';
+  document.getElementById('cfMsg').value = '';
+}
+
+function submitNotify() {
+  const num = document.getElementById('notifyNum').value;
+  if(num.length < 10) { alert('Please enter valid mobile number'); return; }
+  fetch(SHEET_URL, {method:'POST', body: JSON.stringify({mobile: num, type: 'notify', timestamp: new Date().toISOString()})})
+    .then(() => alert('✅ You will be notified when VatsX app launches!')).catch(() => alert('✅ Registered!'));
+  document.getElementById('notifyNum').value = '';
+}
+
+function submitSaarthi() {
+  const name = document.getElementById('sName').value;
+  const mobile = document.getElementById('sMobile').value;
+  const vehicleType = document.getElementById('sVehicleType').value;
+  if(!name || !mobile || !vehicleType) { alert('Please fill Name, Mobile and Vehicle Type'); return; }
+  const data = {name, mobile, district: document.getElementById('sDistrict').value, area: document.getElementById('sArea').value, shift: document.getElementById('sShift').value, vehicleType, vehicleNumber: document.getElementById('sVehicleNum').value, aadhaar: document.getElementById('sAadhaar').value, license: document.getElementById('sLicense').value, upi: document.getElementById('sUPI').value, type: 'saarthi', timestamp: new Date().toISOString()};
+  fetch(SHEET_URL, {method:'POST', body: JSON.stringify(data)})
+    .then(() => alert('✅ Saarthi registration successful! Hum jald aapse contact karenge.')).catch(() => alert('✅ Registration submitted!'));
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btnEN').classList.toggle('active', lang==='en');
+  document.getElementById('btnHI').classList.toggle('active', lang==='hi');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if(lang === 'hi' && el.dataset.hi) {
+      el.innerHTML = el.dataset.hi;
+    } else if(el.dataset.en) {
+      el.innerHTML = el.dataset.en;
+    }
+  });
+  // Update document lang attribute
+  document.documentElement.lang = lang;
+}
+
+function goSlide(n) {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.sdot');
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+setTimeout(() => { setInterval(() => goSlide((currentSlide+1)%4), 5000); }, 100);
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// Init
+document.getElementById('extraOpts').innerHTML = extraOptsHTML['cab'];
+// Set English as default on load
+setTimeout(() => setLang('en'), 50);
+setTimeout(initMap, 500);
+</script>
+<script>
+const manifest = {
+  name: 'VatsX — India's First All-Vehicle Booking',
+  short_name: 'VatsX',
+  description: 'Book any vehicle in Bihar — cab, tractor, truck, auto',
+  start_url: '/',
+  display: 'standalone',
+  background_color: '#000000',
+  theme_color: '#000000',
+  orientation: 'portrait',
+  icons: [
+    {src:'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDIiIGZpbGw9IiMwMDAwMDAiLz4KPHRleHQgeD0iOTYiIHk9IjEwNCIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNzQiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSItNCI+VkFUUzwvdGV4dD4KPGxpbmUgeDE9IjM4IiB5MT0iMTE2IiB4Mj0iMTU0IiB5Mj0iMTE2IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjI1Ii8+Cjx0ZXh0IHg9Ijk2IiB5PSIxNTgiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iMTAwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMjIiPlg8L3RleHQ+Cjwvc3ZnPg==',sizes:'192x192',type:'image/svg+xml'},
+    {src:'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTEyIiBmaWxsPSIjMDAwMDAwIi8+Cjx0ZXh0IHg9IjI1NiIgeT0iMjc4IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOTYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSItMTAiPlZBVFM8L3RleHQ+CjxsaW5lIHgxPSIxMDAiIHkxPSIzMDgiIHgyPSI0MTIiIHkyPSIzMDgiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjI1Ii8+Cjx0ZXh0IHg9IjI1NiIgeT0iNDIwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMTIiIGZvbnQtd2VpZ2h0PSIxMDAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSI2MCI+WDwvdGV4dD4KPC9zdmc+',sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}
+  ]
+};
+const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+const url = URL.createObjectURL(blob);
+document.getElementById('pwaManifest').href = url;
+</script>
+</body>
+</html>
